@@ -43,41 +43,13 @@ namespace FurnitureCompany.Controllers
             return Ok(customer);
         }
 
-        // POST api/<CustomerController>
-        /*  [HttpPost]
-          public void Post([FromBody] string value)
-          {
-          }*/
-
-        // POST api/<CustomerController> Tạo đơn hàng dành cho customer sau khi đã đăng nhập
-        /*[HttpPost("createOrder/customer/{id}")]
-        public void CreateOrderByCustomer(int id, OrderDto orderDto, OrderServiceDto orderServiceDto)
-        {
-            Order order = new Order()
-            {
-                CustomerId = id,
-                Address = orderDto.Address,
-                WorkingStatusId = 1,
-                TotalPrice = orderDto.TotalPrice,
-                CreateAt = DateTime.Now,
-                Status = true,
-                Description = orderDto.Description
-            };
-            OrderService orderService = new OrderService()
-            {
-                OrderId = order.OrderId,
-                OrderServiceId = orderServiceDto.OrderServiceId,
-                EstimateTimeFinish = "2 slot"
-            };
-
-            iOrderRepository.createOrder(order);
-            iOrderServiceRepository.addOrderService(orderService);
-        }*/
-
+       
+        //Chức năng: Khách hàng tạo đơn hàng sau khi đã đăng nhập 
+        //Với id là id của khách hàng sau khi đăng nhập
         [HttpPost("createOrder/customer/{id}")]
-        public void CreateOrderTestByCustomer(int id, CustomerFullOrderDto customerFullOrderDto)
+        public async Task<IActionResult> CreateOrderTestByCustomer(int id, CustomerFullOrderDto customerFullOrderDto)
         {
-            Order order = new Order()
+            Order order =  new Order()
             {
                 CustomerId = id,
                 Address = customerFullOrderDto.Address,
@@ -87,14 +59,30 @@ namespace FurnitureCompany.Controllers
                 Status = true,
                 Description = customerFullOrderDto.Description
             };
-            OrderService orderService = new OrderService()
+            Order orderAfterAddtoDb = await iOrderRepository.CreateOrderAsync(order);
+            if (orderAfterAddtoDb.OrderId != -1)
             {
-                OrderId = order.OrderId,
-                ServiceId = customerFullOrderDto.ServiceId,
-                EstimateTimeFinish = "2 slot"
-            };
-            iOrderRepository.createOrder(order);
-            iOrderServiceRepository.addOrderService(orderService);
+              
+                OrderService orderService = new OrderService()
+                {
+                    OrderId = orderAfterAddtoDb.OrderId,
+                    ServiceId = customerFullOrderDto.ServiceId,
+                    EstimateTimeFinish = "2 slot"
+                };
+                 iOrderServiceRepository.addOrderService(orderService);
+            }
+
+          /*  CustomerFullOrderDto c = new CustomerFullOrderDto()
+            {
+                Address = orderAfterAddtoDb.Address,
+                TotalPrice = orderAfterAddtoDb.TotalPrice,
+                Description = orderAfterAddtoDb.Description,
+                WorkingStatusId = orderAfterAddtoDb.WorkingStatusId,
+                ServiceId=customerFullOrderDto.ServiceId,
+
+
+            };*/
+            return Ok();
         }
 
         [HttpGet]
@@ -105,10 +93,19 @@ namespace FurnitureCompany.Controllers
             return Ok(order);
         }
 
-        // DELETE api/<CustomerController>/5
-        /* [HttpDelete("{id}")]
-         public void Delete(int id)
-         {
-         }*/
+        //Chức năng: Customer xóa đơn hàng sau khi đã tạo 
+        //Tham số đầu vào: customerId là id của customer - orderId là id của đơn hàng 
+        // update status đơn hàng giá trị True => False
+        [HttpPost]
+        [Route("/Delete/Order/{customerId}/{orderId}")]
+        public IActionResult DeleteOrderByCustomer(int customerId, int orderId)
+        {
+            Order order = iOrderRepository.findOrderByOrderIdAndCustomerId(orderId, customerId);
+            order.Status = false;
+            iOrderRepository.updateOrder(order);
+            return Ok(order.Status);                 
+        }
+
+       
     }
 }

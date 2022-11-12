@@ -1,4 +1,5 @@
 ﻿using FurnitureCompany.Data;
+using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace FurnitureCompany.Repository
 
         public List<Assign> getAllAssignByEmployeeId(int employeeId)
         {
-            List<Assign> list = furnitureCompanyContext.Assigns.Where(x => x.EmployeeId == employeeId).ToList();
+            List<Assign> list = furnitureCompanyContext.Assigns.Where(x => x.EmployeeId == employeeId).Include(x => x.Order).ThenInclude(x=>x.Customer).Include(x=>x.Order).ThenInclude(x=>x.WorkingStatus).ToList();
             return list;
         }
 
@@ -41,6 +42,13 @@ namespace FurnitureCompany.Repository
         public void updateAssignByManager(int id)
         {
             throw new NotImplementedException();
+         /*   var customers = db.Customer
+                        .Include(c => c.Invoice)
+                            .ThenInclude(c => c.InvoiceLine)
+                                .ThenInclude(c => c.Track)
+                                    .ThenInclude(c => c.MediaType)
+                        .Where(c => c.FirstName.StartsWith("A"))
+                        .ToList();*/
         }
     }
 }

@@ -12,6 +12,7 @@
         public string? Description { get; set; }
         public bool Status { get; set; }
         public int ServiceId { get; set; }
+        public List<int> listServiceId { get; set; }
         public string? EstimateTimeFinish { get; set; }
     }
 }

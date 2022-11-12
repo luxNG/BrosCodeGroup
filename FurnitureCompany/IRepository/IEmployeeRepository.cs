@@ -8,5 +8,8 @@ namespace FurnitureCompany.IRepository
         public Employee getEmployeeById(int id);
         public void addNewEmployee(Employee e);
         public void updateEmployeeUrlImage(Employee employee);
+
+        public Order getOrderDetailByEmployee(int orderId);
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurnitureCompany.Repository
 {
@@ -11,10 +12,19 @@ namespace FurnitureCompany.Repository
         {
             this.furnitureCompanyContext = furnitureCompanyContext;
         }
+        // ko dùng hàm này vì nó ko xử lí bất đồng bộ
         public void createOrder(Order order)
         {
             furnitureCompanyContext.Orders.Add(order);
             furnitureCompanyContext.SaveChanges();
+        }
+
+        //sử dụng hàm này cho việc tạo đơn hàng
+        public async Task<Order> CreateOrderAsync(Order order)
+        {
+          await furnitureCompanyContext.Orders.AddAsync(order);
+          await furnitureCompanyContext.SaveChangesAsync();
+          return order;
         }
 
         //get tất cả đơn hàng đã có của customer bằng id của customer
@@ -44,6 +54,12 @@ namespace FurnitureCompany.Repository
         {
             furnitureCompanyContext.Orders.Update(order);
             furnitureCompanyContext.SaveChanges();
+        }
+
+        public Order findOrderByOrderIdAndCustomerId(int orderId, int customerId)
+        {
+            Order order = furnitureCompanyContext.Orders.Where(x =>  x.OrderId == orderId && x.CustomerId == customerId).FirstOrDefault();
+            return order;
         }
     }
 }

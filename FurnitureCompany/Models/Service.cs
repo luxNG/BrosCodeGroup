@@ -12,6 +12,7 @@ namespace FurnitureCompany.Models
         }
 
         public int ServiceId { get; set; }
+        public int? CategoryId { get; set; }
         public string ServiceName { get; set; } = null!;
         public string? ServiceDescription { get; set; }
         public string Price { get; set; } = null!;
@@ -20,6 +21,7 @@ namespace FurnitureCompany.Models
         public DateTime? UpdateAt { get; set; }
         public bool Status { get; set; }
 
+        public virtual Category? Category { get; set; }
         public virtual ICollection<OrderService> OrderServices { get; set; }
         public virtual ICollection<ServiceDetail> ServiceDetails { get; set; }
     }

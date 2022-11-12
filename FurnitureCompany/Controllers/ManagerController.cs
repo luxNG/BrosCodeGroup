@@ -12,10 +12,12 @@ namespace FurnitureCompany.Controllers
     public class ManagerController : ControllerBase
     {
         private IManagerRepository iManagerRepository;
-        public ManagerController(IManagerRepository iManagerRepository)
+        private ICategoryRepository iCategoryRepository;
+        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository)
         {
 
             this.iManagerRepository = iManagerRepository;
+            this.iCategoryRepository = iCategoryRepository;
         }
 
         // GET: api/<ManagerController>
@@ -28,27 +30,29 @@ namespace FurnitureCompany.Controllers
         }
 
         // GET api/<ManagerController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("ManagerGetAllCategory")]
+        public IActionResult getAllCategory()
         {
-            return "value";
+            List<Category> listCategory = iCategoryRepository.getAllCategory();
+            return Ok(listCategory);
         }
 
         // POST api/<ManagerController>
-       /* [HttpPost]
+        [HttpPost]
         [Route("assignEmployee")]
         public void PostAssign()
         {
-            
-           
-        }*/
+
+
+        }
 
         // PUT api/<ManagerController>
         // cập nhật đơn hàng thành trạng thái đã hoàn thành
         [HttpPut("updateOrderStatusDone/{id}")]
         public void Put(int orderId)
         {
-            Order order =  iManagerRepository.findandUpdateOrderStatusByManager(orderId);
+            Order order = iManagerRepository.findandUpdateOrderStatusByManager(orderId);
             order.WorkingStatusId = 6;
             iManagerRepository.updateOrderStatus(order);
         }
@@ -62,11 +66,5 @@ namespace FurnitureCompany.Controllers
             iManagerRepository.updateTotalPriceByManager(order);
         }
 
-
-        // DELETE api/<ManagerController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

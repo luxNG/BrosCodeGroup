@@ -9,7 +9,6 @@ namespace FurnitureCompany.Models
         {
             Assigns = new HashSet<Assign>();
             EmployeeDayOffs = new HashSet<EmployeeDayOff>();
-            EmployeeOrderServices = new HashSet<EmployeeOrderService>();
         }
 
         public int EmployeeId { get; set; }
@@ -26,6 +25,5 @@ namespace FurnitureCompany.Models
         public virtual Specialty Specialty { get; set; } = null!;
         public virtual ICollection<Assign> Assigns { get; set; }
         public virtual ICollection<EmployeeDayOff> EmployeeDayOffs { get; set; }
-        public virtual ICollection<EmployeeOrderService> EmployeeOrderServices { get; set; }
     }
 }

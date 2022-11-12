@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurnitureCompany.Repository
 {
@@ -36,6 +37,13 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
         }
 
-       
+
+        public Order getOrderDetailByEmployee(int orderId)
+        {
+          Order orderDetail = furnitureCompanyContext.Orders.Where(x => x.OrderId == orderId).Include(x => x.OrderServices).FirstOrDefault();
+          return orderDetail;
+        }
+
+
     }
 }

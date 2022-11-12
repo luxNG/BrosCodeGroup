@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace FurnitureCompany.Controllers
 {
 
-    [Route("api/role")]
     [ApiController]
+    [Route("/api/role/")]
     public class RoleController : ControllerBase
     {
         private FurnitureCompanyContext furnitureCompanyContext;
@@ -20,7 +20,7 @@ namespace FurnitureCompany.Controllers
         }
         // GET: api/<RoleController>
         [HttpGet]
-        [Route("/GetAllRoles")]
+        [Route("GetAllRole")]
         public IActionResult Get()
         {
             return Ok(roleRepository.getAllRole());

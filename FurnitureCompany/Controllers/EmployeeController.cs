@@ -94,9 +94,22 @@ namespace FurnitureCompany.Controllers
         public IActionResult viewAssign(int id)
         {
             List<Assign> assign = iAssignRepository.getAllAssignByEmployeeId(id);
+          /*  List<EmployeeAssignOrderDto> listDto = new List<EmployeeAssignOrderDto>();
+            foreach (Assign assignItem in assign)
+            {
+                listDto.Add(new EmployeeAssignOrderDto(assignItem));
+            }*/
+           
             return Ok(assign);
         }
 
+        [HttpGet]
+        [Route("getorderdetailbyemployee/order/{orderId}")]
+        public IActionResult getOrderDetail(int orderId)
+        {
+            Order orderDetail = iEmployeeRepository.getOrderDetailByEmployee(orderId);
+            return Ok(orderDetail);
+        }
 
     }
 }

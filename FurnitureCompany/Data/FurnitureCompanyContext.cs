@@ -19,10 +19,10 @@ namespace FurnitureCompany.Data
 
         public virtual DbSet<Account> Accounts { get; set; } = null!;
         public virtual DbSet<Assign> Assigns { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<EmployeeDayOff> EmployeeDayOffs { get; set; } = null!;
-        public virtual DbSet<EmployeeOrderService> EmployeeOrderServices { get; set; } = null!;
         public virtual DbSet<Manager> Managers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderService> OrderServices { get; set; } = null!;
@@ -100,6 +100,17 @@ namespace FurnitureCompany.Data
                     .HasConstraintName("FK_assign_order");
             });
 
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("category");
+
+                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+
+                entity.Property(e => e.CategoryName)
+                    .HasMaxLength(50)
+                    .HasColumnName("category_name");
+            });
+
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("customer");
@@ -107,6 +118,10 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
                 entity.Property(e => e.AccountId).HasColumnName("account_id");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(50)
+                    .HasColumnName("customer_name");
 
                 entity.Property(e => e.CustomerPhone)
                     .HasMaxLength(50)
@@ -180,29 +195,6 @@ namespace FurnitureCompany.Data
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_employee_day_off_employee");
-            });
-
-            modelBuilder.Entity<EmployeeOrderService>(entity =>
-            {
-                entity.ToTable("employee_order_service");
-
-                entity.Property(e => e.EmployeeOrderServiceId).HasColumnName("employee_order_service_id");
-
-                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
-
-                entity.Property(e => e.OrderServiceId).HasColumnName("order_service_id");
-
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.EmployeeOrderServices)
-                    .HasForeignKey(d => d.EmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_employee_order_service_employee");
-
-                entity.HasOne(d => d.OrderService)
-                    .WithMany(p => p.EmployeeOrderServices)
-                    .HasForeignKey(d => d.OrderServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_employee_order_service_order_service");
             });
 
             modelBuilder.Entity<Manager>(entity =>
@@ -316,6 +308,8 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.ServiceId).HasColumnName("service_id");
 
+                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+
                 entity.Property(e => e.CreateAt)
                     .HasColumnType("date")
                     .HasColumnName("create_at");
@@ -335,6 +329,11 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.UpdateAt)
                     .HasColumnType("date")
                     .HasColumnName("update_at");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_service_category");
             });
 
             modelBuilder.Entity<ServiceDetail>(entity =>
