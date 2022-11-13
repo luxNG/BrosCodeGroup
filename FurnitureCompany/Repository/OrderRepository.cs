@@ -1,0 +1,65 @@
+﻿using FurnitureCompany.Data;
+using FurnitureCompany.IRepository;
+using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace FurnitureCompany.Repository
+{
+    public class OrderRepository : IOrderRepository
+    {
+        private FurnitureCompanyContext furnitureCompanyContext;
+        public OrderRepository(FurnitureCompanyContext furnitureCompanyContext)
+        {
+            this.furnitureCompanyContext = furnitureCompanyContext;
+        }
+        // ko dùng hàm này vì nó ko xử lí bất đồng bộ
+        public void createOrder(Order order)
+        {
+            furnitureCompanyContext.Orders.Add(order);
+            furnitureCompanyContext.SaveChanges();
+        }
+
+        //sử dụng hàm này cho việc tạo đơn hàng
+        public async Task<Order> CreateOrderAsync(Order order)
+        {
+          await furnitureCompanyContext.Orders.AddAsync(order);
+          await furnitureCompanyContext.SaveChangesAsync();
+          return order;
+        }
+
+        //get tất cả đơn hàng đã có của customer bằng id của customer
+        public List<Order> getAllOrderByCustomer(int customerId)
+        {
+            List<Order> orders = furnitureCompanyContext.Orders.Where(x => x.CustomerId == customerId).ToList();
+            return orders;
+        }
+
+      
+
+        //Get tất cả đơn hàng bởi manager
+        public List<Order> getAllOrderByManager()
+        {
+            List<Order> listOrder = furnitureCompanyContext.Orders.ToList();
+            return listOrder;
+        }
+
+        //customer tìm kiếm lấy thông tin đơn bằng mã số của đơn hàng
+        public Order getOrderById(int id)
+        {
+            Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == id).FirstOrDefault();
+            return order;
+        }
+
+        public void updateOrder(Order order)
+        {
+            furnitureCompanyContext.Orders.Update(order);
+            furnitureCompanyContext.SaveChanges();
+        }
+
+        public Order findOrderByOrderIdAndCustomerId(int orderId, int customerId)
+        {
+            Order order = furnitureCompanyContext.Orders.Where(x =>  x.OrderId == orderId && x.CustomerId == customerId).FirstOrDefault();
+            return order;
+        }
+    }
+}
