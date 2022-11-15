@@ -26,8 +26,17 @@ namespace FurnitureCompany.Controllers
         [Route("/getAllEmployee")]
         public IActionResult GetAllEmployeeInformation()
         {
-            List<Employee> list = iEmployeeService.GetAllEmployeeInformation();
-            return Ok(list);
+            try
+            {
+                List<Employee> list = iEmployeeService.GetAllEmployeeInformation();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return NotFound();
+            }
+           
         }
 
         // Xem thông tin chi tiết của thợ 
@@ -35,8 +44,17 @@ namespace FurnitureCompany.Controllers
         [HttpGet("/{id}")]
         public IActionResult GetEmployeeById(int id)
         {
-            Employee employee = iEmployeeService.GetEmployeeById(id);
-            return Ok(employee);
+            try
+            {
+                Employee employee = iEmployeeService.GetEmployeeById(id);
+                // return StatusCode(StatusCodes.Status200OK, employee);
+                return Ok(employee);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+           
             
         }
 
@@ -45,8 +63,16 @@ namespace FurnitureCompany.Controllers
         [Route("addNewEmployeeByManager")]
         public IActionResult addNewEmployeeByManger(EmployeeDto employeeDto)
         {
-            Employee employee = iEmployeeService.addNewEmployeeByManger(employeeDto);
-            return Ok(employee);
+            try
+            {
+                Employee employee = iEmployeeService.addNewEmployeeByManger(employeeDto);
+                return Ok(employee);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Cannot create new employee. Try agian");
+            }
+           
         }
 
         // PUT api/<EmployeeController>/5
@@ -84,8 +110,17 @@ namespace FurnitureCompany.Controllers
         [Route("ViewAssign/employeeId/{id}")]
         public IActionResult viewAssignByEmployee(int id)
         {
-            List<EmployeeAssignOrderDto> listDto = iEmployeeService.viewAssignByEmployee(id);
-            return Ok(listDto);
+            try
+            {
+                List<EmployeeAssignOrderDto> listDto = iEmployeeService.viewAssignByEmployee(id);
+                return Ok(listDto);
+            }
+            catch (Exception)
+            {
+
+                return NotFound();
+            }
+           
         }
 
         // Lấy chi tiết thông tin đơn hàng bởi employee thông qua mobile
@@ -94,8 +129,34 @@ namespace FurnitureCompany.Controllers
         [Route("getorderdetailbyemployee/order/{orderId}")]
         public IActionResult getOrderDetailByEmployee(int orderId)
         {
-            EmployeeGetOrderDetailDto employeeGetOrderDetailDto = iEmployeeService.getOrderDetailByEmployee(orderId);
-            return Ok(employeeGetOrderDetailDto);
+            try
+            {
+                EmployeeGetOrderDetailDto employeeGetOrderDetailDto = iEmployeeService.getOrderDetailByEmployee(orderId);
+                return Ok(employeeGetOrderDetailDto);
+            }
+            catch (Exception)
+            {
+
+                return NotFound();
+            }
+           
+        }
+
+        [HttpPut]
+        [Route("/report_order_assigned/{id}")]
+        public IActionResult employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto employeeReportFormDto)
+        {
+            try
+            {
+                Order order = iEmployeeService.employeeReportOrderAssignByOrderId(id, employeeReportFormDto);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not update infor ");
+
+         
+            }
         }
 
     }

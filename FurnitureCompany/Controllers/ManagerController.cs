@@ -1,5 +1,6 @@
 ﻿using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,20 +14,29 @@ namespace FurnitureCompany.Controllers
     {
         private IManagerRepository iManagerRepository;
         private ICategoryRepository iCategoryRepository;
-        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository)
+        private IManagerService managerService;
+        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService)
         {
 
             this.iManagerRepository = iManagerRepository;
             this.iCategoryRepository = iCategoryRepository;
+            this.managerService = managerService;
         }
 
         // GET: api/<ManagerController>
         [HttpGet]
         [Route("GetAllOrder")]
-        public IActionResult GetOrderByManager()
-        {
-            List<Order> list = iManagerRepository.getAllOrder();
-            return Ok(list);
+        public IActionResult getOrderByManager()
+        {           
+            try
+            {
+                List<Order> list = managerService.getOrderByManager();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not get all order information ");
+            }
         }
 
         // GET api/<ManagerController>/5
@@ -34,8 +44,16 @@ namespace FurnitureCompany.Controllers
         [Route("ManagerGetAllCategory")]
         public IActionResult getAllCategory()
         {
-            List<Category> listCategory = iCategoryRepository.getAllCategory();
-            return Ok(listCategory);
+            try
+            {
+                List<Category> list = managerService.getAllCategoryByManager();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Can not get category information ");
+            }
         }
 
         // POST api/<ManagerController>
@@ -50,28 +68,48 @@ namespace FurnitureCompany.Controllers
         // PUT api/<ManagerController>
         // cập nhật đơn hàng thành trạng thái đã hoàn thành
         [HttpPut("updateOrderStatusDone/{id}")]
-        public void Put(int orderId)
+        public IActionResult updateOrderStatusDoneByManager(int id)
         {
-            Order order = iManagerRepository.findandUpdateOrderStatusByManager(orderId);
-            order.WorkingStatusId = 6;
-            iManagerRepository.updateOrderStatus(order);
+            try
+            {
+                Order order = managerService.updateOrderStatusDoneByManager(id);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Can not update order status DONE, try again. ");
+            }
         }
 
 
         [HttpPut("updateTotalPrice/order/{id}")]
-        public void updateTotalPriceByManager(int orderId, OrderDto orderDto)
+        public IActionResult updateTotalPriceByManager(int id, OrderDto orderDto)
         {
-            Order order = iManagerRepository.findandUpdateTotalPrice(orderId);
-            order.TotalPrice = orderDto.TotalPrice;
-            iManagerRepository.updateTotalPriceByManager(order);
+            try
+            {
+                Order order = managerService.updateTotalPriceByManager(id, orderDto);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not update total price by manager, try again. ");
+            }
         }
 
         [HttpGet]
         [Route("api/getOrderByOrderId/{id}")]
-        public IActionResult ManagerGetOrderByOrderId(int id)
+        public IActionResult managerGetOrderByOrderId(int id)
         {
-            Order order = iManagerRepository.managerGetOrderByOrderId(id);
-            return Ok(order);
+            try
+            {
+                Order order = managerService.managerGetOrderByOrderId(id);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+                return NotFound("Can not found order information try agian. ");                
+            }
         }
 
     }

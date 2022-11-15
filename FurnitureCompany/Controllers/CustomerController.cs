@@ -1,5 +1,6 @@
 ﻿using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FurnitureCompany.Controllers
 {
-    [Route("customer")]
+    [Route("/api/customer/")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -15,16 +16,18 @@ namespace FurnitureCompany.Controllers
         private ICustomerRepository iCustomerRepository;
         private IOrderRepository iOrderRepository;
         private IOrderServiceRepository iOrderServiceRepository;
-        public CustomerController(ICustomerRepository iCustomerRepository, IOrderRepository iOrderRepository, IOrderServiceRepository iOrderServiceRepository)
+        private ICustomerService customerService;
+        public CustomerController(ICustomerRepository iCustomerRepository, IOrderRepository iOrderRepository, IOrderServiceRepository iOrderServiceRepository, ICustomerService customerService)
         {
 
             this.iCustomerRepository = iCustomerRepository;
             this.iOrderRepository = iOrderRepository;
             this.iOrderServiceRepository = iOrderServiceRepository;
+            this.customerService = customerService;
         }
         // GET: api/<CustomerController>
         [HttpGet]
-        [Route("/getAllCustomer")]
+        [Route("getAllCustomer")]
         public IActionResult GetAllCustomerInfomation()
         {
             List<Customer> listCustomer = iCustomerRepository.getAllCustomer();
@@ -87,23 +90,36 @@ namespace FurnitureCompany.Controllers
 
         [HttpGet]
         [Route("/getOrderInformation/orderId/{id}")]
-        public IActionResult GetOrderInformation(int id)
+        public IActionResult customerGetOrderDetailInformationByOrderId(int id)
         {
-            Order order = iOrderRepository.getOrderById(id);
-            return Ok(order);
+          
+            try
+            {
+                CustomerGetDetailOrderInforDto orderDto = customerService.customerGetOrderDetailInformationByOrderId(id);
+                return Ok(orderDto);
+            }
+            catch (Exception)
+            {
+                return NotFound("Can not found detail order information, try again. ");                
+            }
         }
 
         //Chức năng: Customer xóa đơn hàng sau khi đã tạo 
         //Tham số đầu vào: customerId là id của customer - orderId là id của đơn hàng 
         // update status đơn hàng giá trị True => False
         [HttpPost]
-        [Route("/Delete/Order/{customerId}/{orderId}")]
-        public IActionResult DeleteOrderByCustomer(int customerId, int orderId)
+        [Route("/Delete/Order/{id}")]
+        public IActionResult DeleteOrderByCustomer(int id)
         {
-            Order order = iOrderRepository.findOrderByOrderIdAndCustomerId(orderId, customerId);
-            order.Status = false;
-            iOrderRepository.updateOrder(order);
-            return Ok(order.Status);                 
+            try
+            {
+                Order order = customerService.DeleteOrderByCustomer(id);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not delete your order, please try again");
+            }
         }
 
        

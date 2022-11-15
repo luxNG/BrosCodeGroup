@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FurnitureCompany.Controllers
 {
-    [Route("api/servicedetail")]
+    [Route("api/servicedetail/")]
     [ApiController]
     public class ServiceDetailController : ControllerBase
     {
@@ -36,6 +36,7 @@ namespace FurnitureCompany.Controllers
 
         // POST api/<ServiceDetailController>
         [HttpPost]
+        [Route("createnewservicedetail")]
         public void Post(ServiceDetailDto serviceDetailDto)
         {
             ServiceDetail serviceDetail = new ServiceDetail()
@@ -43,7 +44,6 @@ namespace FurnitureCompany.Controllers
                 ServiceId = serviceDetailDto.ServiceId,
                 ServiceDetailName = serviceDetailDto.ServiceDetailName,
                 Description = serviceDetailDto.Description,
-                Price = serviceDetailDto.Price,
                 Type = serviceDetailDto.Type,
                 CreateAt = DateTime.Now,
                 UpdateAt = DateTime.Now,
@@ -59,7 +59,6 @@ namespace FurnitureCompany.Controllers
         {
             ServiceDetail serviceDetail = iServiceDetailRepository.GetServiceDetailById(id);
             serviceDetail.ServiceDetailName = serviceDetailDto.ServiceDetailName;
-            serviceDetail.Price = serviceDetailDto.Price;
             serviceDetail.Description = serviceDetailDto.Description;
             serviceDetail.UpdateAt = DateTime.Now;
             iServiceDetailRepository.updateServiceDetail(serviceDetail);

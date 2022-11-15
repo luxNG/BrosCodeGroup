@@ -11,6 +11,8 @@ namespace FurnitureCompany.IRepository
         public void createOrder(Order order);
         public void updateOrder(Order order);
         public Order findOrderByOrderIdAndCustomerId(int customerId, int orderId);
+        public Order customerGetOrderDetailInformationByOrderId(int orderId);
+        public List<Customer> getAllOrderUsingCustomerId(int customerId);
 
     }
 }

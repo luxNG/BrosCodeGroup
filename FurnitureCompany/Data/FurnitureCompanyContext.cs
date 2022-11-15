@@ -109,6 +109,8 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.CategoryName)
                     .HasMaxLength(50)
                     .HasColumnName("category_name");
+
+                entity.Property(e => e.Status).HasColumnName("status");
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -250,6 +252,8 @@ namespace FurnitureCompany.Data
                     .HasColumnType("date")
                     .HasColumnName("update_at");
 
+                entity.Property(e => e.UrlImage).HasColumnName("url_image");
+
                 entity.Property(e => e.WorkingStatusId).HasColumnName("working_status_id");
 
                 entity.HasOne(d => d.Customer)
@@ -348,10 +352,6 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
-                entity.Property(e => e.Price)
-                    .HasMaxLength(50)
-                    .HasColumnName("price");
-
                 entity.Property(e => e.ServiceDetailName)
                     .HasMaxLength(50)
                     .HasColumnName("service_detail_name");
@@ -384,6 +384,8 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.SpecialtyName)
                     .HasMaxLength(50)
                     .HasColumnName("specialty_name");
+
+                entity.Property(e => e.Status).HasColumnName("status");
             });
 
             modelBuilder.Entity<WorkingStatus>(entity =>

@@ -17,10 +17,9 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
         }
 
-        public void deleteSpecialty(int specialtyId)
+        public void deleteSpecialty(Specialty specialty)
         {
-            Specialty specialty = furnitureCompanyContext.Specialties.FirstOrDefault(x => x.SpecialtyId == specialtyId);
-            furnitureCompanyContext.Specialties.Remove(specialty);
+            furnitureCompanyContext.Specialties.Update(specialty);
             furnitureCompanyContext.SaveChanges();
         }
 

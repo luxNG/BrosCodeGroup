@@ -12,6 +12,7 @@ namespace FurnitureCompany.Models
 
         public int SpecialtyId { get; set; }
         public string SpecialtyName { get; set; } = null!;
+        public bool? Status { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
     }

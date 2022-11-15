@@ -45,7 +45,14 @@ builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IAssignRepository, AssignRepository>();
 builder.Services.AddScoped<IOrderServiceRepository, OrderServiceRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
+builder.Services.AddScoped<ISpecialtyService, SpecialtyServiceImpl>();
+builder.Services.AddScoped<ICategoryService, CategoryServiceImpl>();
+builder.Services.AddScoped<IManagerService, ManagerServiceImpl>();
+builder.Services.AddScoped<ICustomerService, CustomerServiceImpl>();
+
+
+
 
 
 

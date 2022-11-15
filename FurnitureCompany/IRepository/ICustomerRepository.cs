@@ -7,6 +7,9 @@ namespace FurnitureCompany.IRepository
         public List<Customer> getAllCustomer();
         public Customer getCustomerById(int id);       
         public void updateCustomerStatus(Customer customer);
-       
+        
+
+
+
     }
 }

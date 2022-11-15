@@ -61,5 +61,17 @@ namespace FurnitureCompany.Repository
             Order order = furnitureCompanyContext.Orders.Where(x =>  x.OrderId == orderId && x.CustomerId == customerId).FirstOrDefault();
             return order;
         }
+
+        public List<Customer> getAllOrderUsingCustomerId(int customerId)
+        {
+            List<Customer> list = furnitureCompanyContext.Customers.Where(x=>x.CustomerId == customerId).Include(x=>x.Orders).ToList();
+            return list;
+        }
+
+        public Order customerGetOrderDetailInformationByOrderId(int orderId)
+        {
+            Order order = furnitureCompanyContext.Orders.Include(x => x.OrderServices).ThenInclude(x=>x.Service).Include(x=>x.Assigns).ThenInclude(x=>x.Employee).Include(x=>x.WorkingStatus).Where(x => x.OrderId == orderId).FirstOrDefault();
+            return order;
+        }
     }
 }

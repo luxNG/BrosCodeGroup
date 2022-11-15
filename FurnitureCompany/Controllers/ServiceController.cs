@@ -58,7 +58,6 @@ namespace FurnitureCompany.Controllers
             {
                 ServiceName = s.ServiceName,
                 ServiceDescription = s.ServiceDescription,
-                Price = s.Price,
                 CreateAt = s.CreateAt,
                 UpdateAt = s.UpdateAt,
                 Status = s.Status,
@@ -99,7 +98,6 @@ namespace FurnitureCompany.Controllers
 
             findService.ServiceName = s.ServiceName;
             findService.ServiceDescription = s.ServiceDescription;
-            findService.Price = s.Price;
             findService.UpdateAt = DateTime.Now;
             findService.Status = s.Status;
             findService.Type = s.Type;

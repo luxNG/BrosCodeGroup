@@ -8,6 +8,6 @@ namespace FurnitureCompany.IRepository
         public Specialty GetSpecialtyById(int id);
         public void addSpecialty(Specialty specialty);
         public void updateSpecialty(Specialty specialty);
-        public void deleteSpecialty(int specialtyId);
+        public void deleteSpecialty(Specialty specialty);
     }
 }

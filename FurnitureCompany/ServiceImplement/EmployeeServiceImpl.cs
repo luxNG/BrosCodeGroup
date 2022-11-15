@@ -5,14 +5,16 @@ using FurnitureCompany.Models;
 
 namespace FurnitureCompany.ServiceImplement
 {
-    public class EmployeeService:IEmployeeService
+    public class EmployeeServiceImpl:IEmployeeService
     {
         private IEmployeeRepository employeeRepository;
         private IAssignRepository assignRepository;
-        public EmployeeService(IEmployeeRepository employeeRepository, IAssignRepository assignRepository)
+        private IOrderRepository orderRepository;
+        public EmployeeServiceImpl(IEmployeeRepository employeeRepository, IAssignRepository assignRepository, IOrderRepository orderRepository)
         {
             this.employeeRepository = employeeRepository;
             this.assignRepository = assignRepository;
+            this.orderRepository = orderRepository;
         }
 
         public Employee addNewEmployeeByManger(EmployeeDto employeeDto)
@@ -66,15 +68,16 @@ namespace FurnitureCompany.ServiceImplement
                     OrderId = item.OrderId,
                     ServiceId = item.ServiceId,
                     ServiceName = item.Service.ServiceName,
+                    Price = item.Service.Price,
                     EstimateTimeFinish = item.EstimateTimeFinish,
-                    Price = item.Service.Price
-                });
+                }) ;
             }
             EmployeeGetOrderDetailDto order = new EmployeeGetOrderDetailDto()
             {
                 OrderId = orderDetail.OrderId,
                 TotalPrice = orderDetail.TotalPrice,
                 Address = orderDetail.Address,
+                Description = orderDetail.Description,
                 StatusName = orderDetail.WorkingStatus.StatusName,
                 CustomerName = orderDetail.Customer.CustomerName,
                 CustomerPhone = orderDetail.Customer.CustomerPhone,
@@ -100,12 +103,28 @@ namespace FurnitureCompany.ServiceImplement
                     StatusName = assignItem.Order.WorkingStatus.StatusName,
                     CustomerPhone = assignItem.Order.Customer.CustomerPhone,
                     WorkingStatusId = assignItem.Order.WorkingStatusId,
-
-
+                    
                 });
             }
 
             return listDto;
+        }
+
+        public Order employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto)
+        {
+            Order order = orderRepository.getOrderById(id);
+            order.UrlImage = dto.UrlImage;
+            order.Description = dto.Description;
+            foreach (var item in dto.listService)
+            {                
+                order.OrderServices.Add(new OrderService
+                {
+                    OrderId = order.OrderId,
+                    ServiceId = item.ServiceId,
+                });
+            }                                   
+            orderRepository.updateOrder(order);
+            return order;
         }
     }
 }

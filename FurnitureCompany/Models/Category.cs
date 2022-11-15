@@ -12,6 +12,7 @@ namespace FurnitureCompany.Models
 
         public int CategoryId { get; set; }
         public string? CategoryName { get; set; }
+        public bool? Status { get; set; }
 
         public virtual ICollection<Service> Services { get; set; }
     }

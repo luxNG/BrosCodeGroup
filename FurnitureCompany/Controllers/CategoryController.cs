@@ -1,5 +1,6 @@
 ﻿using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,26 +14,50 @@ namespace FurnitureCompany.Controllers
     {
 
         private ICategoryRepository iCategoryRepository;
-        public CategoryController(ICategoryRepository iCategoryRepository)
+        private ICategoryService categoryService;
+        public CategoryController(ICategoryRepository iCategoryRepository, ICategoryService categoryService)
         {
             this.iCategoryRepository = iCategoryRepository;
+            this.categoryService = categoryService;
         }
         // GET: api/<CategoryController>
         [HttpGet]
-        [Route("getall")]
+        [Route("getallcategory")]
         public IActionResult getAllCategory()
         {
-            List<Category> list = iCategoryRepository.getAllCategory();
-            return Ok(list);
+            try
+            {
+                List<Category> listCategory = categoryService.getAllCategory();
+                return Ok(listCategory);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         // GET api/<CategoryController>/5
         [HttpGet]
-        [Route("findcategoryid/{id}")]
-        public IActionResult getCategoryById(int id)
+        [Route("findcategorybyid/{id}")]
+        public IActionResult GetCategoryById(int id)
         {
-            Category category = iCategoryRepository.getCategoryById(id);
-            return Ok(category);
+            try
+            {
+                Category category = categoryService.getCategoryById(id);
+
+                if (category == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(category);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+          
+            
         }
 
         // POST api/<CategoryController>
