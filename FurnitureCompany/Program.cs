@@ -50,6 +50,8 @@ builder.Services.AddScoped<ISpecialtyService, SpecialtyServiceImpl>();
 builder.Services.AddScoped<ICategoryService, CategoryServiceImpl>();
 builder.Services.AddScoped<IManagerService, ManagerServiceImpl>();
 builder.Services.AddScoped<ICustomerService, CustomerServiceImpl>();
+builder.Services.AddScoped<IAssignService, AssignServiceImpl>();
+
 
 
 

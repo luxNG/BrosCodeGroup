@@ -46,46 +46,62 @@ namespace FurnitureCompany.Controllers
             return Ok(customer);
         }
 
-       
+
         //Chức năng: Khách hàng tạo đơn hàng sau khi đã đăng nhập 
         //Với id là id của khách hàng sau khi đăng nhập
-        [HttpPost("createOrder/customer/{id}")]
-        public async Task<IActionResult> CreateOrderTestByCustomer(int id, CustomerFullOrderDto customerFullOrderDto)
+        /* [HttpPost("createOrder/customer/{id}")]
+         public async Task<IActionResult> CreateOrderTestByCustomer(int id, CustomerFullOrderDto customerFullOrderDto)
+         {
+             Order order =  new Order()
+             {
+                 CustomerId = id,
+                 Address = customerFullOrderDto.Address,
+                 WorkingStatusId = 1,
+                 TotalPrice = customerFullOrderDto.TotalPrice,
+                 CreateAt = DateTime.Now,
+                 Status = true,
+                 Description = customerFullOrderDto.Description
+             };
+             Order orderAfterAddtoDb = await iOrderRepository.CreateOrderAsync(order);
+             if (orderAfterAddtoDb.OrderId != -1)
+             {
+
+                 OrderService orderService = new OrderService()
+                 {
+                     OrderId = orderAfterAddtoDb.OrderId,
+                     ServiceId = customerFullOrderDto.ServiceId,
+                     EstimateTimeFinish = "2 slot"
+                 };
+                  iOrderServiceRepository.addOrderService(orderService);
+             }
+
+           *//*  CustomerFullOrderDto c = new CustomerFullOrderDto()
+             {
+                 Address = orderAfterAddtoDb.Address,
+                 TotalPrice = orderAfterAddtoDb.TotalPrice,
+                 Description = orderAfterAddtoDb.Description,
+                 WorkingStatusId = orderAfterAddtoDb.WorkingStatusId,
+                 ServiceId=customerFullOrderDto.ServiceId,
+
+
+             };*//*
+             return Ok();
+         }*/
+
+        [HttpPost]
+        [Route("createOrder/customer/{id}")]
+        public async Task<IActionResult> createOrderUsingCustomerId(int id, CustomerCreateOrderTestDto customerCreateOrderTestDto)
         {
-            Order order =  new Order()
+            try
             {
-                CustomerId = id,
-                Address = customerFullOrderDto.Address,
-                WorkingStatusId = 1,
-                TotalPrice = customerFullOrderDto.TotalPrice,
-                CreateAt = DateTime.Now,
-                Status = true,
-                Description = customerFullOrderDto.Description
-            };
-            Order orderAfterAddtoDb = await iOrderRepository.CreateOrderAsync(order);
-            if (orderAfterAddtoDb.OrderId != -1)
-            {
-              
-                OrderService orderService = new OrderService()
-                {
-                    OrderId = orderAfterAddtoDb.OrderId,
-                    ServiceId = customerFullOrderDto.ServiceId,
-                    EstimateTimeFinish = "2 slot"
-                };
-                 iOrderServiceRepository.addOrderService(orderService);
+                Order order = await customerService.customerCreateOrderUsingCustomerIdTest(id, customerCreateOrderTestDto);
+                return Ok(order);
             }
-
-          /*  CustomerFullOrderDto c = new CustomerFullOrderDto()
+            catch (Exception)
             {
-                Address = orderAfterAddtoDb.Address,
-                TotalPrice = orderAfterAddtoDb.TotalPrice,
-                Description = orderAfterAddtoDb.Description,
-                WorkingStatusId = orderAfterAddtoDb.WorkingStatusId,
-                ServiceId=customerFullOrderDto.ServiceId,
-
-
-            };*/
-            return Ok();
+                return BadRequest("Can not create new order please try again. ");
+                
+            }
         }
 
         [HttpGet]

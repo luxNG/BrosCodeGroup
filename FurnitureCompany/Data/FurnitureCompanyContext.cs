@@ -46,9 +46,7 @@ namespace FurnitureCompany.Data
             {
                 entity.ToTable("account");
 
-                entity.Property(e => e.AccountId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("account_id");
+                entity.Property(e => e.AccountId).HasColumnName("account_id");
 
                 entity.Property(e => e.AccountStatus).HasColumnName("account_status");
 
@@ -80,6 +78,8 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.ManagerId).HasColumnName("manager_id");
 
                 entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Assigns)

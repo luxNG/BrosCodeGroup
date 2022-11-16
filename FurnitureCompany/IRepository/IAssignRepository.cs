@@ -10,5 +10,6 @@ namespace FurnitureCompany.IRepository
         public List<Assign> getAllAssignByEmployeeId(int employeeId);
         public void createAssign(Assign assign);
         public void updateAssignByManager(int id);
+        public void updateAssign(Assign assign);
     }
 }

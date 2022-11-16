@@ -10,6 +10,7 @@ namespace FurnitureCompany.Models
         public int ManagerId { get; set; }
         public int EmployeeId { get; set; }
         public DateTime CreateAssignAt { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Employee Employee { get; set; } = null!;
         public virtual Manager Manager { get; set; } = null!;

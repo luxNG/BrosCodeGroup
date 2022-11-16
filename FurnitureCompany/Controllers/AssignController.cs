@@ -1,5 +1,6 @@
 ﻿using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,24 +8,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FurnitureCompany.Controllers
 {
-    [Route("ManagerAssign")]
+    [Route("api/assign/")]
     [ApiController]
     public class AssignController : ControllerBase
     {
         private IAssignRepository iAssignRepository;
         private IManagerRepository iManagerRepository;
-        public AssignController(IAssignRepository iAssignRepository,IManagerRepository iManagerRepository)
+        private IAssignService assignService;
+        public AssignController(IAssignRepository iAssignRepository,IManagerRepository iManagerRepository, IAssignService assignService)
         {
             this.iAssignRepository = iAssignRepository;
             this.iManagerRepository = iManagerRepository;
+            this.assignService = assignService;
         }
         // GET: api/<AssignController>
         [HttpGet]
-        [Route("GetAllAssign")]
-        public IActionResult GetAllAsign()
+        [Route("manager/getAllAssign")]
+        public IActionResult managerGetAllAssign()
         {
-            List<Assign> list = iAssignRepository.getAllAssign();
-            return Ok(list);
+            try
+            {
+                List<Assign> listAssign = assignService.managerGetAllAssign();
+                return Ok(listAssign);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not get assign information ");
+            }
+            
         }
 
         // GET api/<AssignController>/5
@@ -37,25 +48,41 @@ namespace FurnitureCompany.Controllers
         // POST api/<AssignController>
         [HttpPost]
         [Route("CreateAssignByManager/orderId/{id}")]
-        public void createAssignByManager(AssignDto assignDto, int id)
+        public void createAssignByManager(int id, ManagerAssignDto assignDto)
         {
-            Assign assign = new Assign()
+
+            foreach (var item in assignDto.listEmployee)
             {
-                OrderId = id,
-                ManagerId = assignDto.ManagerId,
-                EmployeeId = assignDto.EmployeeId,
-                CreateAssignAt = DateTime.Now,
-            };
-            iAssignRepository.createAssign(assign);
+                Assign assign = new Assign()
+                {
+                    OrderId = id,
+                    ManagerId = assignDto.ManagerId,
+                    EmployeeId = item.EmployeeId,
+                    CreateAssignAt = assignDto.CreateAssignAt,
+                    Status = true,
+                };
+                iAssignRepository.createAssign(assign);
+            }
+             
             Order order = iManagerRepository.findandUpdateOrderStatusByManager(id);
             order.WorkingStatusId = 2;
             iManagerRepository.updateOrderStatus(order);
         }
 
         // PUT api/<AssignController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [Route("manager/updateassignstatus/byassignid/{id}")]
+        public IActionResult managerUpdateAssignStatusByAssignId(int id, AssignDto assignDto)
         {
+            try
+            {
+                Assign assign = assignService.managerUpdateAssignStatusByAssignId(id, assignDto);
+                return Ok(assign);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not update assign status, try again");
+            }
         }
 
         // DELETE api/<AssignController>/5

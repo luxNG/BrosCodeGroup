@@ -2,8 +2,7 @@
 {
     public class ServiceForEmployeeDto
     {
-        public int ServiceId { get; set; }
-     
+        public int ServiceId { get; set; }     
 
 
     }

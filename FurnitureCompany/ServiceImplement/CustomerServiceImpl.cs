@@ -60,5 +60,37 @@ namespace FurnitureCompany.ServiceImplement
             return order;
            
         }
+
+        public async Task<Order> customerCreateOrderUsingCustomerIdTest(int id, CustomerCreateOrderTestDto customerCreateOrderTestDto)
+        {
+
+            Order order = new Order()
+            {
+                CustomerId = id,
+                WorkingStatusId = 1,
+                Address = customerCreateOrderTestDto.Address,
+                CreateAt = customerCreateOrderTestDto.CreateAt,
+                
+            };
+            Order orderAsynAwait = await orderRepository.CreateOrderAsync(order);
+            if (orderAsynAwait.OrderId != -1)
+            {
+                foreach (var item in customerCreateOrderTestDto.listService)
+                {
+                    /* OrderService orderService = new OrderService
+                     {
+                         OrderId = order.OrderId,
+                         ServiceId = item.ServiceId,
+                     };*/
+                    order.OrderServices.Add(new OrderService
+                    {
+                        OrderId = order.OrderId,
+                        ServiceId = item.ServiceId,
+                    });
+                };
+            }
+           
+            return order;
+        }
     }
 }

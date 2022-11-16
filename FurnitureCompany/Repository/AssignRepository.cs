@@ -50,5 +50,11 @@ namespace FurnitureCompany.Repository
                         .Where(c => c.FirstName.StartsWith("A"))
                         .ToList();*/
         }
+
+        public void updateAssign(Assign assign)
+        {
+            furnitureCompanyContext.Assigns.Update(assign);
+            furnitureCompanyContext.SaveChanges();
+        }
     }
 }

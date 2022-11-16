@@ -7,6 +7,8 @@ namespace FurnitureCompany.IService
     {
         public CustomerGetDetailOrderInforDto customerGetOrderDetailInformationByOrderId(int orderId);
         public Order DeleteOrderByCustomer(int orderId);
+        public Task< Order> customerCreateOrderUsingCustomerIdTest(int id, CustomerCreateOrderTestDto customerCreateOrderTestDto);
+
 
     }
 }
