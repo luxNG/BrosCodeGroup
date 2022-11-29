@@ -44,7 +44,6 @@ namespace FurnitureCompany.Controllers
                 ServiceId = serviceDetailDto.ServiceId,
                 ServiceDetailName = serviceDetailDto.ServiceDetailName,
                 Description = serviceDetailDto.Description,
-                Type = serviceDetailDto.Type,
                 CreateAt = DateTime.Now,
                 UpdateAt = DateTime.Now,
                 Status = true,

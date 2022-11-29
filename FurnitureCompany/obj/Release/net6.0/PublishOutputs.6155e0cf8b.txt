@@ -7,6 +7,7 @@ C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubT
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Humanizer.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\MessagePack.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\MessagePack.Annotations.dll
+C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Razor.Language.dll
@@ -37,6 +38,7 @@ C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubT
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.Identity.Client.dll
+C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Logging.dll
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.dll

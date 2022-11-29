@@ -3,8 +3,11 @@ using FurnitureCompany.IRepository;
 using FurnitureCompany.IService;
 using FurnitureCompany.Repository;
 using FurnitureCompany.ServiceImplement;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,18 +48,34 @@ builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IAssignRepository, AssignRepository>();
 builder.Services.AddScoped<IOrderServiceRepository, OrderServiceRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+//service map
 builder.Services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
 builder.Services.AddScoped<ISpecialtyService, SpecialtyServiceImpl>();
 builder.Services.AddScoped<ICategoryService, CategoryServiceImpl>();
 builder.Services.AddScoped<IManagerService, ManagerServiceImpl>();
 builder.Services.AddScoped<ICustomerService, CustomerServiceImpl>();
 builder.Services.AddScoped<IAssignService, AssignServiceImpl>();
+builder.Services.AddScoped<IOrderService, OrderServiceImpl>();
+builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
+builder.Services.AddScoped<IFurnitureServiceService, FurnitureServiceServiceImpl>();
+builder.Services.AddScoped<ICustomerAddressService, CustomerAddressServiceImpl>();
+builder.Services.AddScoped<IAccountService, AccountServiceImpl>();
 
-
-
-
-
-
+//configure security
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+{
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidIssuer = "https://furnituremanagementservice.azurewebsites.net",
+    //ValidAudience ko co s cuoi cung
+    ValidAudience = "https://furnituremanagementservice.azurewebsites.net",
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("helloearththisismysecrectkeyforjwt123456789"))
+});
 
 var app = builder.Build();
 
@@ -82,7 +101,7 @@ if (app.Environment.IsDevelopment()||app.Environment.IsProduction())
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

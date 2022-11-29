@@ -7,6 +7,7 @@ namespace FurnitureCompany.Models
     {
         public Customer()
         {
+            CustomerAddresses = new HashSet<CustomerAddress>();
             Orders = new HashSet<Order>();
         }
 
@@ -16,6 +17,7 @@ namespace FurnitureCompany.Models
         public string CustomerPhone { get; set; } = null!;
 
         public virtual Account Account { get; set; } = null!;
+        public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace FurnitureCompany.IRepository
         public Order findOrderByOrderIdAndCustomerId(int customerId, int orderId);
         public Order customerGetOrderDetailInformationByOrderId(int orderId);
         public List<Customer> getAllOrderUsingCustomerId(int customerId);
+        public Order CustomerGetOrderAndOrderServiceByOrderId(int id);
 
     }
 }

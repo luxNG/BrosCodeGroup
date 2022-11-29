@@ -12,7 +12,7 @@ namespace FurnitureCompany.IService
         public Employee addNewEmployeeByManger(EmployeeDto employeeDto);
 
         public EmployeeGetOrderDetailDto getOrderDetailByEmployee(int orderId);
-        public Order employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto);
+        public Task<Order> employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto);
 
 
     }

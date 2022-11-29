@@ -265,3 +265,5 @@ C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\refi
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\FurnitureCompany.pdb
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\FurnitureCompany.genruntimeconfig.cache
 C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\obj\Release\net6.0\ref\FurnitureCompany.dll
+C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\bin\Release\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\ADMIN\Desktop\FurnitureCompany\FurnitureCompany\bin\Release\net6.0\Microsoft.IdentityModel.Abstractions.dll

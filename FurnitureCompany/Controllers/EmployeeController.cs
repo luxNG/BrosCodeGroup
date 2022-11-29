@@ -144,16 +144,16 @@ namespace FurnitureCompany.Controllers
 
         [HttpPut]
         [Route("/report_order_assigned/{id}")]
-        public IActionResult employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto employeeReportFormDto)
+        public async Task<IActionResult> employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto employeeReportFormDto)
         {
             try
             {
-                Order order = iEmployeeService.employeeReportOrderAssignByOrderId(id, employeeReportFormDto);
+                Order order = await iEmployeeService.employeeReportOrderAssignByOrderId(id, employeeReportFormDto);
                 return Ok(order);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest("Can not update infor ");
+                return BadRequest(e);
 
          
             }

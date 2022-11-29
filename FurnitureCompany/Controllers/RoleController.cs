@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,54 +13,69 @@ namespace FurnitureCompany.Controllers
     public class RoleController : ControllerBase
     {
         private FurnitureCompanyContext furnitureCompanyContext;
+        private IRoleService roleService;
         private IRoleRepository roleRepository;
-        public RoleController(FurnitureCompanyContext furnitureCompanyContext, IRoleRepository roleRepository)
+        public RoleController(FurnitureCompanyContext furnitureCompanyContext, IRoleRepository roleRepository,IRoleService roleService)
         {
             this.furnitureCompanyContext = furnitureCompanyContext;
             this.roleRepository = roleRepository;
+            this.roleService = roleService;
         }
         // GET: api/<RoleController>
         [HttpGet]
         [Route("GetAllRole")]
-        public IActionResult Get()
+        public IActionResult getAllRole()
         {
-            return Ok(roleRepository.getAllRole());
+            try
+            {
+                List<Role> list = roleService.getAllRole();
+                return Ok(list);
+                     
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not get list role, try again. ");
+            }
         }
 
         // GET api/<RoleController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("getRoleById/{id}")]
+        public IActionResult getRoleByRoleId(int id)
         {
-            return "value";
+            try
+            {
+                RoleGetCustomInforDto roleGetCustomInforDto = roleService.getRoleByRoleId(id);
+                return Ok(roleGetCustomInforDto);
+            }
+            catch (Exception)
+            {
+                return NotFound("Can not get role information, try again. ");
+                
+            }
         }
 
 
         [HttpPost]
-        [Route("/AddNewRole")]
+        [Route("addNewRole")]
         public IActionResult addRole(RoleDto roleDto)
         {
-            RoleDto r = new RoleDto
+            try
             {
-                roleName = roleDto.roleName,          
-            };
-
-            //map
-            Role roleMap = new Role
-            {
-                RoleName = r.roleName,
-            };
-            int success = roleRepository.addRole(roleMap);
-            if(success != -1)
-            {
-               return Ok(roleMap);
+                RoleDto roleDtoReturn = roleService.addNewRole(roleDto);
+                return Ok(roleDtoReturn);
             }
-            return BadRequest("cannot add new role");
+            catch (Exception)
+            {
+                return BadRequest("Can not add new role, try again. ");
+            }
+          
               
         }
 
 
         // DELETE api/<RoleController>/5
-        [HttpDelete("removerole/{id}")]
+       /* [HttpDelete("removerole/{id}")]
         public IActionResult Delete(int id)
         {
             int isSuccess = roleRepository.deleteRole(id);
@@ -68,6 +84,6 @@ namespace FurnitureCompany.Controllers
                 return Ok("Delete role success");
             }
             return BadRequest("Delete role fail");
-        }
+        }*/
     }
 }

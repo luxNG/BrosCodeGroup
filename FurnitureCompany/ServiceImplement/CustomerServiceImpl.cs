@@ -8,12 +8,20 @@ namespace FurnitureCompany.ServiceImplement
     public class CustomerServiceImpl:ICustomerService
     {
         private ICustomerRepository customerRepository;
+        private IServiceRepository serviceRepository;
         private IOrderRepository orderRepository;
 
-        public CustomerServiceImpl(ICustomerRepository customerRepository, IOrderRepository orderRepository)
+        public CustomerServiceImpl(ICustomerRepository customerRepository, IOrderRepository orderRepository, IServiceRepository serviceRepository)
         {
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
+            this.serviceRepository = serviceRepository;
+        }
+
+        public List<Customer> getAllCustomer()
+        {
+            List<Customer> list = customerRepository.getAllCustomer();
+            return list;
         }
 
         public CustomerGetDetailOrderInforDto customerGetOrderDetailInformationByOrderId(int orderId)
@@ -91,6 +99,31 @@ namespace FurnitureCompany.ServiceImplement
             }
            
             return order;
+        }
+
+        public Customer GetCustomerById(int id)
+        {
+            Customer customer = customerRepository.getCustomerById(id);
+            return customer;
+        }
+
+        public List<CustomerServiceDetailCategoryDto> CustomerGetServiceAndCategoryInfor()
+        {
+            List<Service> listService = serviceRepository.GetServiceAndCategoryForCustomer();
+            List<CustomerServiceDetailCategoryDto> listServiceCategoryDto = new List<CustomerServiceDetailCategoryDto>();
+            foreach (var item in listService)
+            {
+                listServiceCategoryDto.Add(new CustomerServiceDetailCategoryDto() {
+                    ServiceId = item.ServiceId,
+                    CategoryId = item.CategoryId,
+                    ServiceName = item.ServiceName,
+                    CategoryName = item.Category.CategoryName,
+                    ServiceDescription = item.ServiceDescription,
+                    Price = item.Price,
+                    Type = item.Type                
+                });
+            }
+            return listServiceCategoryDto;
         }
     }
 }

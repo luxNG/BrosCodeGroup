@@ -6,6 +6,8 @@ namespace FurnitureCompany.IRepository
     {
         public void addOrderService(OrderService orderService);
         public void updateOrderService(OrderService orderService);
+        public OrderService FindOrderServiceByOrderServiceId(int orderServiceId);
+        public Task<OrderService> EmployeeFindOrderServiceByOrderId(int orderId, int serviceId);
 
     }
 }

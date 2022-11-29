@@ -14,13 +14,15 @@ namespace FurnitureCompany.Controllers
     {
         private IManagerRepository iManagerRepository;
         private ICategoryRepository iCategoryRepository;
+        private IAccountService accountService;
         private IManagerService managerService;
-        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService)
+        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService, IAccountService accountService)
         {
 
             this.iManagerRepository = iManagerRepository;
             this.iCategoryRepository = iCategoryRepository;
             this.managerService = managerService;
+            this.accountService = accountService;
         }
 
         // GET: api/<ManagerController>
@@ -112,5 +114,29 @@ namespace FurnitureCompany.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("createEmployeeAccount")]
+        public IActionResult managerCreateEmployeeAccount(ManagerCreateEmployeeeAccountDto managerCreateEmployeeeAccountDto)
+        {
+            ManagerCreateEmployeeeAccountDto dto = accountService.managerCreateEmployeeeAccountDto(managerCreateEmployeeeAccountDto);
+            return Ok(dto);
+        }
+
+       /* [HttpGet]
+        [Route("getAllAccountEmployee")]
+        public IActionResult managerGetAllAccountInformationOfEmployee()
+        {
+            try
+            {
+                List<Account> list = accountService.managerGetAllAccountInformationOfEmployee();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Can not get all account information of employee, try again. ");
+            }
+        }
+*/
     }
 }

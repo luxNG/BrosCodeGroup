@@ -73,5 +73,12 @@ namespace FurnitureCompany.Repository
             Order order = furnitureCompanyContext.Orders.Include(x => x.OrderServices).ThenInclude(x=>x.Service).Include(x=>x.Assigns).ThenInclude(x=>x.Employee).Include(x=>x.WorkingStatus).Where(x => x.OrderId == orderId).FirstOrDefault();
             return order;
         }
+
+        public Order CustomerGetOrderAndOrderServiceByOrderId(int id)
+        {
+            Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == id).Include(x => x.OrderServices).FirstOrDefault();
+            return order;
+        }
+
     }
 }

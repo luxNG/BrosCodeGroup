@@ -21,6 +21,7 @@ namespace FurnitureCompany.Data
         public virtual DbSet<Assign> Assigns { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<CustomerAddress> CustomerAddresses { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<EmployeeDayOff> EmployeeDayOffs { get; set; } = null!;
         public virtual DbSet<Manager> Managers { get; set; } = null!;
@@ -50,9 +51,19 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.AccountStatus).HasColumnName("account_status");
 
+                entity.Property(e => e.CreateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_at");
+
                 entity.Property(e => e.Password).HasColumnName("password");
 
+                entity.Property(e => e.RefreshToken).HasColumnName("refresh_token");
+
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.UpdateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_at");
 
                 entity.Property(e => e.Username).HasColumnName("username");
 
@@ -117,6 +128,9 @@ namespace FurnitureCompany.Data
             {
                 entity.ToTable("customer");
 
+                entity.HasIndex(e => e.AccountId, "IX_customer")
+                    .IsUnique();
+
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
                 entity.Property(e => e.AccountId).HasColumnName("account_id");
@@ -131,15 +145,57 @@ namespace FurnitureCompany.Data
                     .HasColumnName("customer_phone");
 
                 entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Customers)
-                    .HasForeignKey(d => d.AccountId)
+                    .WithOne(p => p.Customer)
+                    .HasForeignKey<Customer>(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_customers_accounts");
+                    .HasConstraintName("FK_customer_account");
+            });
+
+            modelBuilder.Entity<CustomerAddress>(entity =>
+            {
+                entity.HasKey(e => e.AddressId);
+
+                entity.ToTable("customer_address");
+
+                entity.Property(e => e.AddressId).HasColumnName("address_id");
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .HasColumnName("city");
+
+                entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+
+                entity.Property(e => e.District)
+                    .HasMaxLength(50)
+                    .HasColumnName("district");
+
+                entity.Property(e => e.HomeNumber)
+                    .HasMaxLength(50)
+                    .HasColumnName("home_number");
+
+                entity.Property(e => e.IsDefault).HasColumnName("is_default");
+
+                entity.Property(e => e.Street)
+                    .HasMaxLength(50)
+                    .HasColumnName("street");
+
+                entity.Property(e => e.Ward)
+                    .HasMaxLength(50)
+                    .HasColumnName("ward");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.CustomerAddresses)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_customer_address_customer");
             });
 
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.ToTable("employee");
+
+                entity.HasIndex(e => e.AccountId, "IX_employee")
+                    .IsUnique();
 
                 entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
 
@@ -166,10 +222,10 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.WorkingStatus).HasColumnName("working_status");
 
                 entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Employees)
-                    .HasForeignKey(d => d.AccountId)
+                    .WithOne(p => p.Employee)
+                    .HasForeignKey<Employee>(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_employees_accounts");
+                    .HasConstraintName("FK_employee_account1");
 
                 entity.HasOne(d => d.Specialty)
                     .WithMany(p => p.Employees)
@@ -203,6 +259,9 @@ namespace FurnitureCompany.Data
             {
                 entity.ToTable("manager");
 
+                entity.HasIndex(e => e.AccountId, "IX_manager")
+                    .IsUnique();
+
                 entity.Property(e => e.ManagerId).HasColumnName("manager_id");
 
                 entity.Property(e => e.AccountId).HasColumnName("account_id");
@@ -222,8 +281,8 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Managers)
-                    .HasForeignKey(d => d.AccountId)
+                    .WithOne(p => p.Manager)
+                    .HasForeignKey<Manager>(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_managers_accounts");
             });
@@ -280,6 +339,8 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.OrderId).HasColumnName("order_id");
 
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
                 entity.Property(e => e.ServiceId).HasColumnName("service_id");
 
                 entity.HasOne(d => d.Order)
@@ -328,7 +389,9 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
-                entity.Property(e => e.Type).HasColumnName("type");
+                entity.Property(e => e.Type)
+                    .HasMaxLength(50)
+                    .HasColumnName("type");
 
                 entity.Property(e => e.UpdateAt)
                     .HasColumnType("date")
@@ -359,10 +422,6 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.ServiceId).HasColumnName("service_id");
 
                 entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.Type)
-                    .HasMaxLength(50)
-                    .HasColumnName("type");
 
                 entity.Property(e => e.UpdateAt)
                     .HasColumnType("date")

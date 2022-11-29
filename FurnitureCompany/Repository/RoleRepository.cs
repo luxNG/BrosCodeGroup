@@ -38,6 +38,10 @@ namespace FurnitureCompany.Repository
             return roles;
         }
 
-
+        public Role getRoleByRoleId(int roleId)
+        {
+            Role role = furnitureCompanyContext.Roles.Where(x => x.Id == roleId).FirstOrDefault();
+            return role;
+        }
     }
 }

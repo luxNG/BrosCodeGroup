@@ -7,5 +7,7 @@ namespace FurnitureCompany.IRepository
         public List<Role> getAllRole();
         public int addRole(Role role);
         public int deleteRole(int roleId);
+
+        public Role getRoleByRoleId(int roleId);
     }
 }

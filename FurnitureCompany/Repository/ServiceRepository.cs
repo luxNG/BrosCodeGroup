@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurnitureCompany.Repository
 {
@@ -56,6 +57,24 @@ namespace FurnitureCompany.Repository
                 furnitureCompanyContext.SaveChanges();
             }
            
+        }
+
+        public List<Service> GetServiceAndCategoryForCustomer()
+        {
+            List<Service> service = furnitureCompanyContext.Services.Include(x => x.Category).ToList();
+            return service;
+        }
+
+        public List<Service> getServiceAndCategoryInformationForManager()
+        {
+            List<Service> list = furnitureCompanyContext.Services.Include(x => x.Category).ToList();
+            return list;
+        }
+
+        public Service getServiceAndCategoryInformationForManagerByServiceId(int id)
+        {
+            Service service = furnitureCompanyContext.Services.Include(x => x.Category).FirstOrDefault(x => x.ServiceId == id);
+            return service;
         }
     }
 }

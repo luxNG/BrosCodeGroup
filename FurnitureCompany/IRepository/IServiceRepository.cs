@@ -9,5 +9,10 @@ namespace FurnitureCompany.IRepository
         public int addService(Service service);
         public void updateService( Service service);
         public int deleteService(int service);
+        public List<Service> GetServiceAndCategoryForCustomer();
+
+        public List<Service> getServiceAndCategoryInformationForManager();
+        public Service getServiceAndCategoryInformationForManagerByServiceId(int id);
+
     }
 }

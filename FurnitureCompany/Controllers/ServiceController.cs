@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,101 +9,106 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FurnitureCompany.Controllers
 {
-    [Route("api/service")]
+    [Route("api/service/")]
     [ApiController]
     public class ServiceController : ControllerBase
     {
 
-        private FurnitureCompanyContext furnitureCompanyContext;
-        private IServiceRepository iServiceRepository;
-        public ServiceController(FurnitureCompanyContext furnitureCompanyContext, IServiceRepository iServiceRepository)
+      
+        private IFurnitureServiceService furnitureServiceService;
+        public ServiceController(IFurnitureServiceService furnitureServiceService)
         {
-            this.furnitureCompanyContext = furnitureCompanyContext;
-            this.iServiceRepository = iServiceRepository;
+            
+            this.furnitureServiceService = furnitureServiceService;
         }
+
         // GET: api/<ServiceController>
         [HttpGet]
-        [Route("/getAllService")]
-        public IActionResult Get()
+        [Route("getAllService")]
+        public IActionResult getAllService()
         {
-            return Ok(iServiceRepository.getAllService());
+            try
+            {
+                List<ServiceGetCustomInforDto> list = furnitureServiceService.getAllService();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Can not get service information, try later. ");
+            }
+           
         }
 
         // GET api/<ServiceController>/5
-        [HttpGet("serviceID/{id}")]
-        public IActionResult Get(int id)
+        [HttpGet]
+        [Route("findServiceById/{id}")]
+        public IActionResult getServiceByServiceId(int id)
         {
-            Service service = iServiceRepository.GetServiceById(id);
-            return Ok(service);
+            try
+            {
+                ServiceGetCustomInforDto serviceGetCustomInforDto = furnitureServiceService.getServiceInformationByServiceId(id);
+                return Ok(serviceGetCustomInforDto);
+            }
+            catch (Exception)
+            {
+                return NotFound("Can not found service information, try again. ");
+            }
+     
         }
 
         // POST api/<ServiceController>
         [HttpPost]
-        [Route("/AddNewService")]
-
-        public IActionResult Post(ServiceDto serviceDto)
+        [Route("addNewService")]
+        public IActionResult managerCreateNewService(ServiceDto serviceDto)
         {
-            ServiceDto s = new ServiceDto
+            try
             {
-                ServiceName = serviceDto.ServiceName,
-                ServiceDescription = serviceDto.ServiceDescription,
-                Price = serviceDto.Price,
-                CreateAt = DateTime.Now,
-                UpdateAt = DateTime.Now,
-                Status = true,
-                Type = 1
-            };
-
-            //map
-            Service serviceMap = new Service
-            {
-                ServiceName = s.ServiceName,
-                ServiceDescription = s.ServiceDescription,
-                CreateAt = s.CreateAt,
-                UpdateAt = s.UpdateAt,
-                Status = s.Status,
-                Type = s.Type
-
-            };
-            int success = iServiceRepository.addService(serviceMap);
-            if (success != -1)
-            {
-                return Ok(serviceMap);
+                ServiceDto dto = furnitureServiceService.managerCreateNewService(serviceDto);
+                return Ok(dto);
             }
-            return BadRequest("cannot add new service");
+            catch (Exception)
+            {
+                return BadRequest("Can not add new service, try again. ");
+            }
+            
         }
 
       
 
         // DELETE api/<ServiceController>/5
-        [HttpDelete("RemoveService/{id}")]
-        public IActionResult Delete(int id)
+        [HttpPut]
+        [Route("manager/removeServiceById/{id}")]
+        public IActionResult managerRemoveServiceById(int id)
         {
-            int isSuccess = iServiceRepository.deleteService(id);
-            if (isSuccess != -1)
+            try
             {
-                return Ok("Delete service success");
+                Service service = furnitureServiceService.managerRemoveServiceById(id);
+                return Ok(service);
             }
-            return BadRequest("Delete service fail");
+            catch (Exception)
+            {
+
+                return BadRequest("Can not remove service, try again. ");
+            }
+           
         }
 
         //UPDATE SERVICE
-        [HttpPut("/UpdateService/{id}")]
-        public IActionResult updateCategory(int id, ServiceDto s)
+        [HttpPut]
+        [Route("manager/updateServiceByServiceId/{id}")]
+        public IActionResult managerUpdateServiceInformation(int id, ServiceDto serviceDto)
         {
-            Service findService = iServiceRepository.GetServiceById(id);
-            if(findService == null)
+            try
             {
-                return BadRequest("No information");
+                Service service = furnitureServiceService.managerUpdateServiceInformation(id, serviceDto);
+                return Ok(service);
             }
-
-            findService.ServiceName = s.ServiceName;
-            findService.ServiceDescription = s.ServiceDescription;
-            findService.UpdateAt = DateTime.Now;
-            findService.Status = s.Status;
-            findService.Type = s.Type;
-            iServiceRepository.updateService(findService);
-            return Ok("update service success");
+            catch (Exception)
+            {
+                return BadRequest("Can not update service information, try again. ");
+            }          
+           
         }
 
       

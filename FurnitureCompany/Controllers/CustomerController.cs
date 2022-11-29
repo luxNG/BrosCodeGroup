@@ -17,33 +17,53 @@ namespace FurnitureCompany.Controllers
         private IOrderRepository iOrderRepository;
         private IOrderServiceRepository iOrderServiceRepository;
         private ICustomerService customerService;
-        public CustomerController(ICustomerRepository iCustomerRepository, IOrderRepository iOrderRepository, IOrderServiceRepository iOrderServiceRepository, ICustomerService customerService)
+        private ICustomerAddressService customerAddressService;
+        public CustomerController(ICustomerRepository iCustomerRepository, IOrderRepository iOrderRepository, IOrderServiceRepository iOrderServiceRepository, ICustomerService customerService, ICustomerAddressService customerAddressService)
         {
-
             this.iCustomerRepository = iCustomerRepository;
             this.iOrderRepository = iOrderRepository;
             this.iOrderServiceRepository = iOrderServiceRepository;
             this.customerService = customerService;
+            this.customerAddressService = customerAddressService;
         }
         // GET: api/<CustomerController>
         [HttpGet]
         [Route("getAllCustomer")]
         public IActionResult GetAllCustomerInfomation()
         {
-            List<Customer> listCustomer = iCustomerRepository.getAllCustomer();
-            return Ok(listCustomer);
+            try
+            {
+                List<Customer> listCustomer = customerService.getAllCustomer();
+                return Ok(listCustomer);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not get list customer information, try again");
+            }
         }
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
         public IActionResult GetCustomerById(int id)
         {
-            Customer customer = iCustomerRepository.getCustomerById(id);
-            if(customer == null)
+            try
             {
-                return NotFound();
+                Customer customer = customerService.GetCustomerById(id);
+                if (customer == null)
+                {
+                    return NotFound("Can not find customer, try again. ");
+                }
+
+                return Ok(customer);
             }
-            return Ok(customer);
+            catch (Exception)
+            {
+
+                return NotFound("Can not find customer, try again. ");
+            }
+          
+           
         }
 
 
@@ -105,7 +125,7 @@ namespace FurnitureCompany.Controllers
         }
 
         [HttpGet]
-        [Route("/getOrderInformation/orderId/{id}")]
+        [Route("getOrderInformation/orderId/{id}")]
         public IActionResult customerGetOrderDetailInformationByOrderId(int id)
         {
           
@@ -124,8 +144,8 @@ namespace FurnitureCompany.Controllers
         //Tham số đầu vào: customerId là id của customer - orderId là id của đơn hàng 
         // update status đơn hàng giá trị True => False
         [HttpPost]
-        [Route("/Delete/Order/{id}")]
-        public IActionResult DeleteOrderByCustomer(int id)
+        [Route("delete/OrderId/{id}")]
+        public IActionResult deleteOrderByCustomer(int id)
         {
             try
             {
@@ -138,6 +158,62 @@ namespace FurnitureCompany.Controllers
             }
         }
 
-       
+        [HttpGet]
+        [Route("getServiceAndCategoryInfor")]
+        public IActionResult customerGetServiceAndCategoryInfor()
+        {
+            try
+            {
+                List<CustomerServiceDetailCategoryDto> list = customerService.CustomerGetServiceAndCategoryInfor();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Can not get information, try again. ");
+            }
+        }
+
+        [HttpGet]
+        [Route("getListCustomerAddressByCustomerId/{id}")]
+        public IActionResult customerGetListAddressByCustomerId(int id)
+        {
+            try
+            {
+                List<CustomerAddress> listCustomerAddress = customerAddressService.getListAddressByCustomerId(id);
+                return Ok(listCustomerAddress);
+            }
+            catch (Exception)
+            {
+                return NotFound("Can not get list address of customer, try again. ");
+            }
+        }
+
+        [HttpGet]
+        [Route("getAllAddress/customerId/{id}")]
+        public IActionResult customerGetAllAddress(int id)
+        {
+            try
+            {
+                List<CustomerAddress> list = customerAddressService.getListAddressByCustomerId(id);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Can not get address, please try again. ");
+            }
+          
+        }
+
+        [HttpPut]
+        [Route("chooseDefaultAddress/{customerId}/{addressId}/{oldAddressId}")]
+        public IActionResult chooseDefaultAddress(int customerId, int addressId, int oldAddressId)
+        {
+            CustomerAddress customerAddress = customerAddressService.changeStatusCustomerAddressDefault(customerId,addressId, oldAddressId);
+
+            return Ok(customerAddress);
+        }
+
     }
 }

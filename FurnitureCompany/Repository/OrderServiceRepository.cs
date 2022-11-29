@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurnitureCompany.Repository
 {
@@ -17,9 +18,15 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
         }
 
-        public OrderService findOrderServiceByOrderId(int orderServiceId)
+        public OrderService FindOrderServiceByOrderServiceId(int orderServiceId)
         {
             OrderService orderService = furnitureCompanyContext.OrderServices.Where(x => x.OrderServiceId == orderServiceId).FirstOrDefault();
+            return orderService;
+        }
+
+        public async Task<OrderService> EmployeeFindOrderServiceByOrderId(int orderId, int serviceId)
+        {
+            OrderService orderService = await furnitureCompanyContext.OrderServices.Where(x => x.OrderId == orderId && x.ServiceId == serviceId).FirstOrDefaultAsync();
             return orderService;
         }
 

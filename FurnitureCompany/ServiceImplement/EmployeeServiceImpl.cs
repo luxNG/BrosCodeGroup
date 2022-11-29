@@ -10,11 +10,13 @@ namespace FurnitureCompany.ServiceImplement
         private IEmployeeRepository employeeRepository;
         private IAssignRepository assignRepository;
         private IOrderRepository orderRepository;
-        public EmployeeServiceImpl(IEmployeeRepository employeeRepository, IAssignRepository assignRepository, IOrderRepository orderRepository)
+        private IOrderServiceRepository orderServiceRepository;
+        public EmployeeServiceImpl(IEmployeeRepository employeeRepository, IAssignRepository assignRepository, IOrderRepository orderRepository, IOrderServiceRepository orderServiceRepository)
         {
             this.employeeRepository = employeeRepository;
             this.assignRepository = assignRepository;
             this.orderRepository = orderRepository;
+            this.orderServiceRepository = orderServiceRepository;
         }
 
         public Employee addNewEmployeeByManger(EmployeeDto employeeDto)
@@ -110,19 +112,45 @@ namespace FurnitureCompany.ServiceImplement
             return listDto;
         }
 
-        public Order employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto)
+        public async Task <Order> employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto)
         {
-            Order order = orderRepository.getOrderById(id);
+            Order order = orderRepository.CustomerGetOrderAndOrderServiceByOrderId(id);
             order.UrlImage = dto.UrlImage;
             order.Description = dto.Description;
+
             foreach (var item in dto.listService)
-            {                
-                order.OrderServices.Add(new OrderService
-                {
-                    OrderId = order.OrderId,
-                    ServiceId = item.ServiceId,
-                });
-            }                                   
+            {
+                OrderService orderServiceFind = await orderServiceRepository.EmployeeFindOrderServiceByOrderId(order.OrderId, item.ServiceId);
+                if (orderServiceFind != null)
+                {                    
+                        orderServiceFind.Quantity += item.Quantity;
+                        orderServiceRepository.updateOrderService(orderServiceFind);
+                    
+                }
+                else
+                {                    
+                        order.OrderServices.Add(new OrderService
+                        {
+                            OrderId = order.OrderId,
+                            ServiceId = item.ServiceId,
+                            Quantity = item.Quantity,
+                        });   
+                }
+
+            }
+
+
+             /*foreach (var listServiceDto in dto.listService)
+                  {
+
+                      order.OrderServices.Add(new OrderService
+                      {
+                          OrderId = order.OrderId,
+                          ServiceId = listServiceDto.ServiceId,
+                          Quantity = listServiceDto.Quantity,
+                      });
+                  }*/
+
             orderRepository.updateOrder(order);
             return order;
         }
