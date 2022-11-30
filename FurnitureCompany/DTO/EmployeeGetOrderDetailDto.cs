@@ -6,6 +6,7 @@
         public int OrderId { get; set; }
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
+        public string? CategoryName { get; set; }
         public string? EstimateTimeFinish { get; set; }
         public string? Address { get; set; }
         public string? Description { get; set; }

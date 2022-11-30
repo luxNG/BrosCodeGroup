@@ -9,10 +9,12 @@ namespace FurnitureCompany.ServiceImplement
     {
         private IManagerRepository managerRepository;
         private ICategoryRepository categoryRepository;
-        public ManagerServiceImpl(IManagerRepository managerRepository, ICategoryRepository categoryRepository)
+        private IOrderRepository orderRepository;
+        public ManagerServiceImpl(IManagerRepository managerRepository, ICategoryRepository categoryRepository, IOrderRepository orderRepository)
         {
             this.managerRepository = managerRepository;
             this.categoryRepository = categoryRepository;
+            this.orderRepository = orderRepository;
         }
 
         public List<Category> getAllCategoryByManager()
@@ -39,6 +41,12 @@ namespace FurnitureCompany.ServiceImplement
             Order order = managerRepository.findandUpdateOrderStatusByManager(orderId);
             order.WorkingStatusId = 6;
             managerRepository.updateOrderStatus(order);
+            return order;
+        }
+
+        public Order updateOrderWorkingStatusByOrderId(int orderId, int orderWorkingStatusId)
+        {
+            Order order = orderRepository.managerUpdateOrderWorkingStatusByOrderId(orderId, orderWorkingStatusId);
             return order;
         }
 

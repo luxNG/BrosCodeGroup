@@ -80,5 +80,13 @@ namespace FurnitureCompany.Repository
             return order;
         }
 
+        public Order managerUpdateOrderWorkingStatusByOrderId(int orderId, int orderWorkingStatusId)
+        {
+            Order order = furnitureCompanyContext.Orders.FirstOrDefault(x => x.OrderId == orderId);
+            order.WorkingStatusId = orderWorkingStatusId;
+            furnitureCompanyContext.Orders.Update(order);
+            furnitureCompanyContext.SaveChanges();
+            return order;
+        }
     }
 }

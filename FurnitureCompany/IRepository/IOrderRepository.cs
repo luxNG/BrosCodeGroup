@@ -15,5 +15,7 @@ namespace FurnitureCompany.IRepository
         public List<Customer> getAllOrderUsingCustomerId(int customerId);
         public Order CustomerGetOrderAndOrderServiceByOrderId(int id);
 
+        public Order managerUpdateOrderWorkingStatusByOrderId(int orderId,int orderWorkingStatusId);
+
     }
 }

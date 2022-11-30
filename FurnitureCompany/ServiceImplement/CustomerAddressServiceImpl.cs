@@ -12,29 +12,25 @@ namespace FurnitureCompany.ServiceImplement
             this.customerAddressRepository = customerAddressRepository;
         }
 
-        public CustomerAddress changeStatusCustomerAddressDefault(int customerId, int addressId, int oldAddress)
+        public List<CustomerAddress> changeStatusCustomerAddressDefault(int customerId, int addressId)
         {
-            CustomerAddress customerAddress = customerAddressRepository.findCustomerAddressByCustomerAndAddressId(customerId, addressId);
-            customerAddress.IsDefault = true;
-            customerAddressRepository.updateStatusCustomerAddressDefault(customerAddress);
-
-            CustomerAddress oldCustomerAddress = customerAddressRepository.findCustomerAddressByCustomerAndAddressId(customerId, oldAddress);
-            oldCustomerAddress.IsDefault = false;
-            customerAddressRepository.updateStatusCustomerAddressDefault(oldCustomerAddress);
-            /*List<CustomerAddress> list = customerAddressRepository.getListAddressByCustomerId(customerId);
+            
+            List<CustomerAddress> list = customerAddressRepository.getListAddressByCustomerId(customerId);
             foreach (var item in list)
             {
-                if(item.AddressId == addressId)
+                if (item.AddressId == addressId)
                 {
                     item.IsDefault = true;
-
+                    customerAddressRepository.updateStatusCustomerAddressDefault(item);
                 }
+                else
+                {
                     item.IsDefault = false;
-              
-                customerAddressRepository.updateStatusCustomerAddressDefault(item);
+                    customerAddressRepository.updateStatusCustomerAddressDefault(item);
+                }               
 
-            }*/
-            return customerAddress;
+            }
+            return list;
         }
 
         public List<CustomerAddress> getListAddressByCustomerId(int customerId)
@@ -43,16 +39,6 @@ namespace FurnitureCompany.ServiceImplement
             return list;
         }
 
-       /* public  async Task< CustomerAddress> changeStatusCustomerAddressDefault(int customerId, int addressId, int oldAddressId)
-        {
-            CustomerAddress customerAddress =  customerAddressRepository.findCustomerAddressByCustomerAndAddressId(customerId, addressId);
-            customerAddress.IsDefault = true;
-            await customerAddressRepository.updateStatusCustomerAddressDefault(customerAddress);
-            CustomerAddress oldCustomerAddress = customerAddressRepository.findCustomerAddressByCustomerAndAddressId(customerId, oldAddressId);
-            oldCustomerAddress.IsDefault = false;
-            await customerAddressRepository.updateStatusCustomerAddressDefault(oldCustomerAddress);
-            return null;
-
-        }*/
+     
     }
 }

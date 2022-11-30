@@ -13,6 +13,7 @@ namespace FurnitureCompany.IService
 
         public Order updateTotalPriceByManager(int orderId, OrderDto orderDto);
         public Order updateOrderStatusDoneByManager(int id);
+        public Order updateOrderWorkingStatusByOrderId(int orderId, int orderWorkingStatusId);
 
 
     }

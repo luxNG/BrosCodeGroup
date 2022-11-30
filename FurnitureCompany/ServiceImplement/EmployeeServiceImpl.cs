@@ -72,6 +72,7 @@ namespace FurnitureCompany.ServiceImplement
                     ServiceName = item.Service.ServiceName,
                     Price = item.Service.Price,
                     EstimateTimeFinish = item.EstimateTimeFinish,
+                    CategoryName = item.Service.Category.CategoryName,
                 }) ;
             }
             EmployeeGetOrderDetailDto order = new EmployeeGetOrderDetailDto()
@@ -153,6 +154,27 @@ namespace FurnitureCompany.ServiceImplement
 
             orderRepository.updateOrder(order);
             return order;
+        }
+
+        public List<EmployeeAssignOrderDto> employeeGetOrderWorkingStatus(int employeeId, int orderWorkingStatusId)
+        {
+            List<Assign> list = assignRepository.getOrderWorkingStatusByEmployee(employeeId, orderWorkingStatusId);
+            List<EmployeeAssignOrderDto> dto = new List<EmployeeAssignOrderDto>();
+            foreach (Assign item in list)
+            {
+                dto.Add(new EmployeeAssignOrderDto()
+                {
+                    OrderId = item.OrderId,
+                    Address = item.Order.Address,
+                    CustomerId = item.Order.CustomerId,
+                    CustomerName = item.Order.Customer.CustomerName,
+                    StatusName = item.Order.WorkingStatus.StatusName,
+                    CustomerPhone = item.Order.Customer.CustomerPhone,
+                    WorkingStatusId = item.Order.WorkingStatusId,
+                    TotalPrice=item.Order.TotalPrice
+                });
+            }
+            return dto;
         }
     }
 }

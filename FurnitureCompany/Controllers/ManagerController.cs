@@ -122,6 +122,21 @@ namespace FurnitureCompany.Controllers
             return Ok(dto);
         }
 
+        [HttpPost]
+        [Route("updateOrderWorkingStatus/orderId/{id}/orderWorkingStatusId/{workingStatusId}")]
+        public IActionResult managerUpdateOrderWorkingStatus(int id,int workingStatusId)
+        {
+            try
+            {
+                Order order = managerService.updateOrderWorkingStatusByOrderId(id,workingStatusId);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not update order working status, try again. ");
+            }
+        }
+
        /* [HttpGet]
         [Route("getAllAccountEmployee")]
         public IActionResult managerGetAllAccountInformationOfEmployee()

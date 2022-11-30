@@ -159,5 +159,22 @@ namespace FurnitureCompany.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("viewOrderStatus/employeeId/{id}/orderWorkingStatus/{orderWorkingStatusId}")]
+        public IActionResult viewOrderStatusIsWorking(int id, int orderWorkingStatusId)
+        {
+            try
+            {
+                List<EmployeeAssignOrderDto> list = iEmployeeService.employeeGetOrderWorkingStatus(id, orderWorkingStatusId);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return NotFound("Can not found information, try again. ");
+            }
+          
+        }
+
     }
 }

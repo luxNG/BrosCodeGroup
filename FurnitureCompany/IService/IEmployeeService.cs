@@ -14,6 +14,8 @@ namespace FurnitureCompany.IService
         public EmployeeGetOrderDetailDto getOrderDetailByEmployee(int orderId);
         public Task<Order> employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto);
 
+        public List<EmployeeAssignOrderDto> employeeGetOrderWorkingStatus(int employeeId, int orderWorkingStatusId);
+
 
     }
 }

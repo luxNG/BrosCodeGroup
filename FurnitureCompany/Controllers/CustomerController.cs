@@ -207,11 +207,10 @@ namespace FurnitureCompany.Controllers
         }
 
         [HttpPut]
-        [Route("chooseDefaultAddress/{customerId}/{addressId}/{oldAddressId}")]
-        public IActionResult chooseDefaultAddress(int customerId, int addressId, int oldAddressId)
+        [Route("chooseDefaultAddress/{customerId}/{addressId}")]
+        public IActionResult chooseDefaultAddress(int customerId, int addressId)
         {
-            CustomerAddress customerAddress = customerAddressService.changeStatusCustomerAddressDefault(customerId,addressId, oldAddressId);
-
+            List<CustomerAddress> customerAddress = customerAddressService.changeStatusCustomerAddressDefault(customerId,addressId);
             return Ok(customerAddress);
         }
 
