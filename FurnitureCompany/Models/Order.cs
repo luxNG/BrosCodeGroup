@@ -8,6 +8,7 @@ namespace FurnitureCompany.Models
         public Order()
         {
             Assigns = new HashSet<Assign>();
+            OrderImages = new HashSet<OrderImage>();
             OrderServices = new HashSet<OrderService>();
         }
 
@@ -20,11 +21,11 @@ namespace FurnitureCompany.Models
         public DateTime? UpdateAt { get; set; }
         public string? Description { get; set; }
         public bool Status { get; set; }
-        public string? UrlImage { get; set; }
 
         public virtual Customer Customer { get; set; } = null!;
         public virtual WorkingStatus? WorkingStatus { get; set; }
         public virtual ICollection<Assign> Assigns { get; set; }
+        public virtual ICollection<OrderImage> OrderImages { get; set; }
         public virtual ICollection<OrderService> OrderServices { get; set; }
     }
 }

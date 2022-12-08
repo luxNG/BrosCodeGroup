@@ -116,7 +116,16 @@ namespace FurnitureCompany.ServiceImplement
         public async Task <Order> employeeReportOrderAssignByOrderId(int id, EmployeeReportFormDto dto)
         {
             Order order = orderRepository.CustomerGetOrderAndOrderServiceByOrderId(id);
-            order.UrlImage = dto.UrlImage;
+            foreach (var item in dto.listEmployeeCreateOrderImageListDto)
+            {
+                order.OrderImages.Add(new OrderImage()
+                {
+                    OrderId = order.OrderId,
+                    ImageUrl = item.ImageUrl,
+                    Status = true
+                });
+            }
+
             order.Description = dto.Description;
 
             foreach (var item in dto.listService)

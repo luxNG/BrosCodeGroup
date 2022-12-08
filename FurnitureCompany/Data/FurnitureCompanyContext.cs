@@ -26,6 +26,7 @@ namespace FurnitureCompany.Data
         public virtual DbSet<EmployeeDayOff> EmployeeDayOffs { get; set; } = null!;
         public virtual DbSet<Manager> Managers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<OrderImage> OrderImages { get; set; } = null!;
         public virtual DbSet<OrderService> OrderServices { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Service> Services { get; set; } = null!;
@@ -311,8 +312,6 @@ namespace FurnitureCompany.Data
                     .HasColumnType("date")
                     .HasColumnName("update_at");
 
-                entity.Property(e => e.UrlImage).HasColumnName("url_image");
-
                 entity.Property(e => e.WorkingStatusId).HasColumnName("working_status_id");
 
                 entity.HasOne(d => d.Customer)
@@ -325,6 +324,25 @@ namespace FurnitureCompany.Data
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.WorkingStatusId)
                     .HasConstraintName("FK_order_working_status");
+            });
+
+            modelBuilder.Entity<OrderImage>(entity =>
+            {
+                entity.ToTable("order_image");
+
+                entity.Property(e => e.OrderImageId).HasColumnName("order_image_id");
+
+                entity.Property(e => e.ImageUrl).HasColumnName("image_url");
+
+                entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderImages)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_order_image_order");
             });
 
             modelBuilder.Entity<OrderService>(entity =>
