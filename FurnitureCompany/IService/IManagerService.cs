@@ -5,11 +5,14 @@ namespace FurnitureCompany.IService
 {
     public interface IManagerService
     {
-        public List<Order> getOrderByManager();
+        public List<ManagerGetAllOrderDto> getOrderByManager();
 
         public List<Category> getAllCategoryByManager();
 
+        //ko dùng cái này
         public Order managerGetOrderByOrderId(int id);
+
+        public ManagerGetOrderDetailDto managerGetOrderDetailByOrderId(int orderId);
 
         public Order updateTotalPriceByManager(int orderId, OrderDto orderDto);
         public Order updateOrderStatusDoneByManager(int id);

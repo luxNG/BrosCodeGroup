@@ -78,6 +78,10 @@ namespace FurnitureCompany.ServiceImplement
                 WorkingStatusId = 1,
                 Address = customerCreateOrderTestDto.Address,
                 CreateAt = customerCreateOrderTestDto.CreateAt,
+                TotalPrice = customerCreateOrderTestDto.TotalPrice,
+                //ngày giờ thực hiện lịch
+                ImplementationDate = customerCreateOrderTestDto.ImplementationDate,
+                ImplementationTime = customerCreateOrderTestDto.ImplementationTime
                 
             };
             Order orderAsynAwait = await orderRepository.CreateOrderAsync(order);

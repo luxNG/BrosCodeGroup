@@ -10,7 +10,6 @@ namespace FurnitureCompany.Models
         public int ServiceId { get; set; }
         public int? Quantity { get; set; }
         public string? EstimateTimeFinish { get; set; }
-
         public virtual Order Order { get; set; } = null!;
         public virtual Service Service { get; set; } = null!;
     }

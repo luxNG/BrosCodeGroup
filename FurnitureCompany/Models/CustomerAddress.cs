@@ -12,7 +12,10 @@ namespace FurnitureCompany.Models
         public string? Ward { get; set; }
         public string? District { get; set; }
         public string? City { get; set; }
+        public string? CustomerNameOrder { get; set; }
+        public string? CustomerPhoneOrder { get; set; }
         public bool IsDefault { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Customer Customer { get; set; } = null!;
     }

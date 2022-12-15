@@ -10,5 +10,11 @@ namespace FurnitureCompany.IRepository
         // public Task<CustomerAddress> updateStatusCustomerAddressDefault(CustomerAddress customerAddress);
         public CustomerAddress updateStatusCustomerAddressDefault(CustomerAddress customerAddress);
 
+        public void customerAddNewAddress(CustomerAddress customerAddress);
+
+        public CustomerAddress findCustomerAddressById(int customerAddressId);
+
+        public void updateCustomerAddress(CustomerAddress customerAddress);
+
     }
 }

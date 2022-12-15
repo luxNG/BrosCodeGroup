@@ -17,6 +17,8 @@ namespace FurnitureCompany.Models
         public int? WorkingStatusId { get; set; }
         public string Address { get; set; } = null!;
         public string? TotalPrice { get; set; }
+        public DateTime? ImplementationDate { get; set; }
+        public string? ImplementationTime { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
         public string? Description { get; set; }

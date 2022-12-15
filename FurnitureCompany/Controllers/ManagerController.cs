@@ -32,7 +32,7 @@ namespace FurnitureCompany.Controllers
         {           
             try
             {
-                List<Order> list = managerService.getOrderByManager();
+                List<ManagerGetAllOrderDto> list = managerService.getOrderByManager();
                 return Ok(list);
             }
             catch (Exception)
@@ -99,8 +99,8 @@ namespace FurnitureCompany.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/getOrderByOrderId/{id}")]
+       /* [HttpGet]
+        [Route("ko dùng cái này/getOrderByOrderId/{id}")]
         public IActionResult managerGetOrderByOrderId(int id)
         {
             try
@@ -111,6 +111,21 @@ namespace FurnitureCompany.Controllers
             catch (Exception)
             {
                 return NotFound("Can not found order information try agian. ");                
+            }
+        }*/
+
+        [HttpGet]
+        [Route("getOrderDetailByOrderId/{id}")]
+        public IActionResult managerGetOrderDetailByOrderId(int id)
+        {
+            try
+            {
+                ManagerGetOrderDetailDto order = managerService.managerGetOrderDetailByOrderId(id);
+                return Ok(order);
+            }
+            catch (Exception)
+            {
+                return NotFound("Can not found order information try agian. ");
             }
         }
 

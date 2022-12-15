@@ -166,6 +166,14 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
+                entity.Property(e => e.CustomerNameOrder)
+                    .HasMaxLength(50)
+                    .HasColumnName("customer_name_order");
+
+                entity.Property(e => e.CustomerPhoneOrder)
+                    .HasMaxLength(50)
+                    .HasColumnName("customer_phone_order");
+
                 entity.Property(e => e.District)
                     .HasMaxLength(50)
                     .HasColumnName("district");
@@ -175,6 +183,8 @@ namespace FurnitureCompany.Data
                     .HasColumnName("home_number");
 
                 entity.Property(e => e.IsDefault).HasColumnName("is_default");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.Street)
                     .HasMaxLength(50)
@@ -303,6 +313,14 @@ namespace FurnitureCompany.Data
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.ImplementationDate)
+                    .HasColumnType("date")
+                    .HasColumnName("implementation_date");
+
+                entity.Property(e => e.ImplementationTime)
+                    .HasMaxLength(50)
+                    .HasColumnName("implementation_time");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 

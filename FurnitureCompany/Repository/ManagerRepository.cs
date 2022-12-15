@@ -21,7 +21,7 @@ namespace FurnitureCompany.Repository
 
         public List<Order> getAllOrder()
         {
-            List<Order> listOrderbyManager = furnitureCompanyContext.Orders.Include(x=>x.Customer).ToList();
+            List<Order> listOrderbyManager = furnitureCompanyContext.Orders.Include(x => x.Customer).Include(x => x.WorkingStatus).ToList();
             return listOrderbyManager;
         }
 
@@ -46,8 +46,14 @@ namespace FurnitureCompany.Repository
         }
 
        public Order managerGetOrderByOrderId(int orderId)
-        {
+       {
             Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == orderId).Include(x=>x.Customer).FirstOrDefault();
+            return order;
+       }
+
+        public Order managerGetOrderDetailByOrderId(int orderId)
+        {
+            Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == orderId).Include(x => x.Customer).Include(x=>x.OrderImages).Include(x=>x.OrderServices).ThenInclude(x=>x.Service).ThenInclude(x=>x.Category).FirstOrDefault();
             return order;
         }
     }

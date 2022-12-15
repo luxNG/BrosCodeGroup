@@ -44,7 +44,8 @@ namespace FurnitureCompany.Controllers
         }
 
         // GET api/<CustomerController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("getCustomerDetailById/{id}")]
         public IActionResult GetCustomerById(int id)
         {
             try
@@ -212,6 +213,54 @@ namespace FurnitureCompany.Controllers
         {
             List<CustomerAddress> customerAddress = customerAddressService.changeStatusCustomerAddressDefault(customerId,addressId);
             return Ok(customerAddress);
+        }
+
+        [HttpPost]
+        [Route("addNewAddress")]
+        public IActionResult customerAddNewAddress(CustomerCreateNewAddress customerCreateNewAddress)
+        {
+            try
+            {
+                CustomerAddress address = customerAddressService.addNewAddressByCustomerId(customerCreateNewAddress);
+                return Ok(address);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("có lỗi trong quá trình thêm địa chỉ mới, vui lòng thử lại ");
+            }
+        }
+
+        [HttpPut]
+        [Route("updateAddress/adressId/{id}")]
+        public IActionResult customerUpdateAddress(int id, CustomerAddressDto customerAddressDto)
+        {
+            /* try
+             {
+                 CustomerAddress customerAddress = customerAddressService.updateAddressInformation(id, customerAddressDto);
+                 return Ok(customerAddress);
+             }
+             catch (Exception)
+             {
+                 return BadRequest("Cập nhật địa chỉ không thành công, vui lòng thử lại. ");
+             }*/
+            CustomerAddress customerAddress = customerAddressService.updateAddressInformation(id, customerAddressDto);
+            return Ok(customerAddress);
+        }
+
+        [HttpPut]
+        [Route("deleteAddress/addressId/{id}")]
+        public IActionResult customerDeleteAddress (int id)
+        {
+            try
+            {
+                CustomerAddress customerAddress = customerAddressService.customerDeleteAddress(id);
+                return Ok(customerAddress);
+            }
+            catch (Exception)
+            {
+                return BadRequest("xảy ra lỗi khi xóa địa chỉ, vui lòng thử lại. ");
+            }
         }
 
     }

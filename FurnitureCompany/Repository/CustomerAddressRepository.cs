@@ -14,7 +14,7 @@ namespace FurnitureCompany.Repository
 
         public List<CustomerAddress> getListAddressByCustomerId(int customerId)
         {
-            List<CustomerAddress> list = furnitureCompanyContext.CustomerAddresses.Where(x => x.CustomerId == customerId).ToList();
+            List<CustomerAddress> list = furnitureCompanyContext.CustomerAddresses.Where(x => x.CustomerId == customerId && x.Status == true).ToList();
             return list;
         }
 
@@ -31,6 +31,22 @@ namespace FurnitureCompany.Repository
             return customerAddress;
         }
 
-    
+        public void customerAddNewAddress(CustomerAddress customerAddress)
+        {
+            furnitureCompanyContext.CustomerAddresses.Add(customerAddress);
+            furnitureCompanyContext.SaveChanges();
+        }
+
+        public CustomerAddress findCustomerAddressById(int addressId)
+        {
+            CustomerAddress customerAddress = furnitureCompanyContext.CustomerAddresses.FirstOrDefault(x => x.AddressId == addressId);
+            return customerAddress;
+        }
+
+        public void updateCustomerAddress(CustomerAddress customerAddress)
+        {
+            furnitureCompanyContext.CustomerAddresses.Update(customerAddress);
+            furnitureCompanyContext.SaveChanges();
+        }
     }
 }

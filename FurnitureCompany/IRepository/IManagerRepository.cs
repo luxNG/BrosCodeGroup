@@ -10,6 +10,7 @@ namespace FurnitureCompany.IRepository
         public void updateTotalPriceByManager(Order order);
         public Order findandUpdateTotalPrice(int orderId);
         public Order managerGetOrderByOrderId(int orderId);
+        public Order managerGetOrderDetailByOrderId(int orderId);
 
 
 
