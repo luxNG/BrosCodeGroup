@@ -16,13 +16,17 @@ namespace FurnitureCompany.Controllers
         private ICategoryRepository iCategoryRepository;
         private IAccountService accountService;
         private IManagerService managerService;
-        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService, IAccountService accountService)
+        private IWorkingStatusService workingStatusService;
+        private IFurnitureServiceService furnitureServiceService;
+        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService, IAccountService accountService, IWorkingStatusService workingStatusService, IFurnitureServiceService furnitureServiceService)
         {
 
             this.iManagerRepository = iManagerRepository;
             this.iCategoryRepository = iCategoryRepository;
             this.managerService = managerService;
             this.accountService = accountService;
+            this.workingStatusService = workingStatusService;
+            this.furnitureServiceService = furnitureServiceService;
         }
 
         // GET: api/<ManagerController>
@@ -152,6 +156,35 @@ namespace FurnitureCompany.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getAllWorkingStatusInfor")]
+        public IActionResult managerGetAllWorkingStatusInfor()
+        {
+            try
+            {
+                List<WorkingStatus> list = workingStatusService.getAllWorkingStatus();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+                return BadRequest("không thể lấy thông tin, vui lòng thử lại");
+            }
+        }
+
+        [HttpGet]
+        [Route("getAllServiceByCategory/categoryId/{id}")]
+        public IActionResult managerGetAllServiceByCategoryId(int id)
+        {
+            try
+            {
+                List<ManagerGetListServiceDto> list = furnitureServiceService.managerGetServiceByCategoryId(id);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+                return BadRequest("không thể lấy thông tin dịch vụ, vui lòng thủ lại");
+            }
+        }
        /* [HttpGet]
         [Route("getAllAccountEmployee")]
         public IActionResult managerGetAllAccountInformationOfEmployee()

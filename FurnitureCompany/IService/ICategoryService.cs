@@ -7,5 +7,7 @@ namespace FurnitureCompany.IService
         public List<Category> getAllCategory();
 
         public Category getCategoryById(int id);
+
+        
     }
 }

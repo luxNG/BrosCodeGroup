@@ -50,6 +50,8 @@ builder.Services.AddScoped<IOrderServiceRepository, OrderServiceRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IWorkingStatusRepository, WorkingStatusRepository>();
+
 
 //service map
 builder.Services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
@@ -63,6 +65,7 @@ builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
 builder.Services.AddScoped<IFurnitureServiceService, FurnitureServiceServiceImpl>();
 builder.Services.AddScoped<ICustomerAddressService, CustomerAddressServiceImpl>();
 builder.Services.AddScoped<IAccountService, AccountServiceImpl>();
+builder.Services.AddScoped<IWorkingStatusService, WorkingStatusServiceImpl>();
 
 //configure security
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters

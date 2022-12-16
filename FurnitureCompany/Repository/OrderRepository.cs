@@ -88,5 +88,11 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
             return order;
         }
+
+        public Order customerUpdateOrderByOrderIdAndCustomerId(int orderId, int customerId)
+        {
+            Order order = furnitureCompanyContext.Orders.Include(x => x.OrderServices).Where(x => x.OrderId == orderId && x.CustomerId == customerId).FirstOrDefault();
+            return order;
+        }
     }
 }

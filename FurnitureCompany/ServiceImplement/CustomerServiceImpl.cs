@@ -10,12 +10,14 @@ namespace FurnitureCompany.ServiceImplement
         private ICustomerRepository customerRepository;
         private IServiceRepository serviceRepository;
         private IOrderRepository orderRepository;
+        private IOrderServiceRepository orderServiceRepository;
 
-        public CustomerServiceImpl(ICustomerRepository customerRepository, IOrderRepository orderRepository, IServiceRepository serviceRepository)
+        public CustomerServiceImpl(ICustomerRepository customerRepository, IOrderRepository orderRepository, IServiceRepository serviceRepository, IOrderServiceRepository orderServiceRepository)
         {
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
             this.serviceRepository = serviceRepository;
+            this.orderServiceRepository = orderServiceRepository;
         }
 
         public List<Customer> getAllCustomer()
@@ -89,16 +91,15 @@ namespace FurnitureCompany.ServiceImplement
             {
                 foreach (var item in customerCreateOrderTestDto.listService)
                 {
-                    /* OrderService orderService = new OrderService
-                     {
-                         OrderId = order.OrderId,
-                         ServiceId = item.ServiceId,
-                     };*/
-                    order.OrderServices.Add(new OrderService
+                    OrderService orderService = new OrderService
                     {
-                        OrderId = order.OrderId,
+                        OrderId = orderAsynAwait.OrderId,
                         ServiceId = item.ServiceId,
-                    });
+                        Quantity = item.Quantity
+                        
+                    };
+                    orderServiceRepository.addOrderService(orderService);
+
                 };
             }
            
@@ -128,6 +129,40 @@ namespace FurnitureCompany.ServiceImplement
                 });
             }
             return listServiceCategoryDto;
+        }
+
+        public async Task<Order> customerUpdateOrderByOrderIdAsync(int orderId, int customerId, CustomerUpdateOrderDto dto)
+        {
+            Order order = orderRepository.customerUpdateOrderByOrderIdAndCustomerId(orderId, customerId);
+            order.Address = dto.Address;
+            order.ImplementationDate = dto.ImplementationDate;
+            order.ImplementationTime = dto.ImplementationTime;
+            order.UpdateAt = dto.UpdateAt;
+
+           
+            foreach (var itemDto in dto.listService)
+            {
+                OrderService orderServiceFind = await orderServiceRepository.EmployeeFindOrderServiceByOrderId(order.OrderId, itemDto.ServiceId);
+
+                if (orderServiceFind != null)
+                {
+                    orderServiceFind.Quantity += itemDto.Quantity;
+                    orderServiceRepository.updateOrderService(orderServiceFind);
+
+                }
+                else
+                {
+                    order.OrderServices.Add(new OrderService
+                    {
+                        OrderId = order.OrderId,
+                        ServiceId = itemDto.ServiceId,
+                        Quantity = itemDto.Quantity,
+                    });
+                }
+            }
+
+            orderRepository.updateOrder(order);
+            return order;
         }
     }
 }

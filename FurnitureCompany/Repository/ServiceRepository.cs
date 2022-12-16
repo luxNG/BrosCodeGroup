@@ -76,5 +76,11 @@ namespace FurnitureCompany.Repository
             Service service = furnitureCompanyContext.Services.Include(x => x.Category).FirstOrDefault(x => x.ServiceId == id);
             return service;
         }
+
+        public List<Service> managerGetAllServiceByCategoryId(int categoryId)
+        {
+            List<Service> list = furnitureCompanyContext.Services.Include(x => x.Category).Where(x => x.CategoryId == categoryId).ToList();
+            return list;
+        }
     }
 }

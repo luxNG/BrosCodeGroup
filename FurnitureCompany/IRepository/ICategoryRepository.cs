@@ -8,6 +8,8 @@ namespace FurnitureCompany.IRepository
         public Category getCategoryById(int id);
         public void addCategory(Category category);
         public void updateCategory(Category category);
-       
+        
+
+
     }
 }

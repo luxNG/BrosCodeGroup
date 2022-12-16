@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurnitureCompany.Repository
 {

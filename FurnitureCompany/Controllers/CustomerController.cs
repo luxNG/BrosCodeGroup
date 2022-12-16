@@ -73,7 +73,7 @@ namespace FurnitureCompany.Controllers
         /* [HttpPost("createOrder/customer/{id}")]
          public async Task<IActionResult> CreateOrderTestByCustomer(int id, CustomerFullOrderDto customerFullOrderDto)
          {
-             Order order =  new Order()
+             Order order = new Order()
              {
                  CustomerId = id,
                  Address = customerFullOrderDto.Address,
@@ -93,16 +93,16 @@ namespace FurnitureCompany.Controllers
                      ServiceId = customerFullOrderDto.ServiceId,
                      EstimateTimeFinish = "2 slot"
                  };
-                  iOrderServiceRepository.addOrderService(orderService);
+                 iOrderServiceRepository.addOrderService(orderService);
              }
 
-           *//*  CustomerFullOrderDto c = new CustomerFullOrderDto()
+             *//*CustomerFullOrderDto c = new CustomerFullOrderDto()
              {
                  Address = orderAfterAddtoDb.Address,
                  TotalPrice = orderAfterAddtoDb.TotalPrice,
                  Description = orderAfterAddtoDb.Description,
                  WorkingStatusId = orderAfterAddtoDb.WorkingStatusId,
-                 ServiceId=customerFullOrderDto.ServiceId,
+                 ServiceId = customerFullOrderDto.ServiceId,
 
 
              };*//*
@@ -121,7 +121,7 @@ namespace FurnitureCompany.Controllers
             catch (Exception)
             {
                 return BadRequest("Can not create new order please try again. ");
-                
+
             }
         }
 
@@ -263,5 +263,19 @@ namespace FurnitureCompany.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("updateOrder/orderId/{id}/customerId/{customerId}")]
+        public  async Task<IActionResult> customerUpdateOrderByOrderId(int id, int customerId, CustomerUpdateOrderDto dto)
+        {
+           try
+           {
+               Order order = await customerService.customerUpdateOrderByOrderIdAsync(id, customerId, dto);
+               return Ok(order);
+           }
+           catch (Exception)
+           {
+               return BadRequest("Đã có lỗi xảy ra khi cập nhật đơn hàng, vui lòng thử lại");
+           }
+        }
     }
 }

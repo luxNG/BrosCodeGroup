@@ -10,5 +10,6 @@ namespace FurnitureCompany.IService
         public ServiceDto managerCreateNewService(ServiceDto serviceDto);
         public Service managerRemoveServiceById(int id);
         public Service managerUpdateServiceInformation(int id, ServiceDto serviceDto);
+        public List<ManagerGetListServiceDto> managerGetServiceByCategoryId(int categoryId);
     }
 }

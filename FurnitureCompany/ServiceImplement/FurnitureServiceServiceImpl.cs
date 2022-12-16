@@ -70,6 +70,29 @@ namespace FurnitureCompany.ServiceImplement
             return serviceDto;
         }
 
+        public List<ManagerGetListServiceDto> managerGetServiceByCategoryId(int categoryId)
+        {
+            List<Service> list = serviceRepository.managerGetAllServiceByCategoryId(categoryId);
+            List<ManagerGetListServiceDto> listDto = new List<ManagerGetListServiceDto>();
+            foreach (var item in list)
+            {
+                listDto.Add(new ManagerGetListServiceDto()
+                {
+                    CategoryId = item.Category.CategoryId,
+                    CategoryName = item.Category.CategoryName,
+                    ServiceId = item.ServiceId,
+                    ServiceName = item.ServiceName,
+                    Price = item.Price,
+                    ServiceDescription = item.ServiceDescription,
+                    CreateAt = item.CreateAt,
+                    UpdateAt = item.UpdateAt,
+                    Type = item.Type,
+                    ServiceStatus = item.Status                    
+                });
+            }
+            return listDto;
+        }
+
         public Service managerRemoveServiceById(int id)
         {
             Service service = serviceRepository.GetServiceById(id);

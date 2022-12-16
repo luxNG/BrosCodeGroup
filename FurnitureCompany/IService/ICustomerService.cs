@@ -12,6 +12,7 @@ namespace FurnitureCompany.IService
         public Order DeleteOrderByCustomer(int orderId);
         public Task< Order> customerCreateOrderUsingCustomerIdTest(int id, CustomerCreateOrderTestDto customerCreateOrderTestDto);
         public List<CustomerServiceDetailCategoryDto> CustomerGetServiceAndCategoryInfor();
+        public Task<Order> customerUpdateOrderByOrderIdAsync(int orderId, int customerId, CustomerUpdateOrderDto customerUpdateOrderDto);
 
 
     }

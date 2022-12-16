@@ -38,13 +38,6 @@ namespace FurnitureCompany.Controllers
             
         }
 
-        // GET api/<AssignController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<AssignController>
         [HttpPost]
         [Route("CreateAssignByManager/orderId/{id}")]
@@ -64,9 +57,9 @@ namespace FurnitureCompany.Controllers
                 iAssignRepository.createAssign(assign);
             }
              
-            Order order = iManagerRepository.findandUpdateOrderStatusByManager(id);
+            /*Order order = iManagerRepository.findandUpdateOrderStatusByManager(id);
             order.WorkingStatusId = 2;
-            iManagerRepository.updateOrderStatus(order);
+            iManagerRepository.updateOrderStatus(order);*/
         }
 
         // PUT api/<AssignController>/5
