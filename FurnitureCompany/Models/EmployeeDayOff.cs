@@ -9,6 +9,7 @@ namespace FurnitureCompany.Models
         public int EmployeeId { get; set; }
         public string? Reason { get; set; }
         public DateTime DayOff { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Employee Employee { get; set; } = null!;
     }

@@ -11,12 +11,12 @@ namespace FurnitureCompany.IService
 
         //ko dùng cái này
         public Order managerGetOrderByOrderId(int id);
-
         public ManagerGetOrderDetailDto managerGetOrderDetailByOrderId(int orderId);
-
         public Order updateTotalPriceByManager(int orderId, OrderDto orderDto);
         public Order updateOrderStatusDoneByManager(int id);
         public Order updateOrderWorkingStatusByOrderId(int orderId, int orderWorkingStatusId);
+        public List<Customer> managerGetCustomerOrderInforByCustomerPhoneNumber(string phoneNumber);
+        public List<ManagerGetAllEmployeeInforDto> managerGetAllEmployeeInfor();
 
 
     }

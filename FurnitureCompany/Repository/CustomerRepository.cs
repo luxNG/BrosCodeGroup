@@ -1,6 +1,7 @@
 ﻿using FurnitureCompany.Data;
 using FurnitureCompany.IRepository;
 using FurnitureCompany.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurnitureCompany.Repository
 {
@@ -21,6 +22,12 @@ namespace FurnitureCompany.Repository
         {
             Customer findCustomer = furnitureCompanyContext.Customers.FirstOrDefault(x => x.CustomerId == id);
             return findCustomer;
+        }
+
+        public List<Customer> managerGetCustomerInforByPhoneNumber(string customerPhoneNumber)
+        {
+            List<Customer> customer = furnitureCompanyContext.Customers.Include(x => x.Orders).Where(x=>x.CustomerPhone == customerPhoneNumber).ToList();
+            return customer;
         }
 
         public void updateCustomerStatus(Customer customer)

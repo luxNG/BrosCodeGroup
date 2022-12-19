@@ -1,10 +1,11 @@
 ﻿namespace FurnitureCompany.DTO
 {
-    public class EmployeeDayOffDto
+    public class EmployeeUpdateDayOffDto
     {
-        public int EmployeeId { get; set; }
+        /*public int Id { get; set; }
+        public int EmployeeId { get; set; }*/
         public string? Reason { get; set; }
         public DateTime DayOff { get; set; }
-        public bool? Status { get; set; }
+
     }
 }

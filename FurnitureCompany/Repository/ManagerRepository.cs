@@ -53,7 +53,7 @@ namespace FurnitureCompany.Repository
 
         public Order managerGetOrderDetailByOrderId(int orderId)
         {
-            Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == orderId).Include(x => x.Customer).Include(x=>x.OrderImages).Include(x=>x.OrderServices).ThenInclude(x=>x.Service).ThenInclude(x=>x.Category).FirstOrDefault();
+            Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == orderId).Include(x => x.Assigns).ThenInclude(x=>x.Employee).Include(x => x.Customer).Include(x=>x.OrderImages).Include(x=>x.OrderServices).ThenInclude(x=>x.Service).ThenInclude(x=>x.Category).FirstOrDefault();
             return order;
         }
     }

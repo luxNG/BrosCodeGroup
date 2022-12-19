@@ -21,7 +21,7 @@ namespace FurnitureCompany.Repository
 
         public List<Employee> getAllEmployee()
         {
-            List<Employee> listEmployee = furnitureCompanyContext.Employees.ToList();
+            List<Employee> listEmployee = furnitureCompanyContext.Employees.Include(x => x.Specialty).ToList();
             return listEmployee;
         }
 
@@ -32,6 +32,12 @@ namespace FurnitureCompany.Repository
         }
 
         public void updateEmployeeUrlImage(Employee employee)
+        {
+            furnitureCompanyContext.Employees.Update(employee);
+            furnitureCompanyContext.SaveChanges();
+        }
+
+        public void updateEmployeeWorkingStatus(Employee employee)
         {
             furnitureCompanyContext.Employees.Update(employee);
             furnitureCompanyContext.SaveChanges();
@@ -52,5 +58,12 @@ namespace FurnitureCompany.Repository
             return orderDetail;
         }
 
+        public async Task<Employee> getEmployeeByIdAsync(int employeeId)
+        {
+            Employee employee = await furnitureCompanyContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == employeeId);
+            return employee;
+        }
+
+      
     }
 }

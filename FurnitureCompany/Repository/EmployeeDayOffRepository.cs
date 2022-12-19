@@ -26,10 +26,22 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
         }
 
+        public List<EmployeeDayOff> getAllDayOffByEmployeeId(int employeeId)
+        {
+            List<EmployeeDayOff> list = furnitureCompanyContext.EmployeeDayOffs.Where(x => x.EmployeeId == employeeId).ToList();
+            return list;
+        }
+
         public List<EmployeeDayOff> getAllEmployeeDayOff()
         {
             List<EmployeeDayOff> listEmployeeDayOff = furnitureCompanyContext.EmployeeDayOffs.ToList();
             return listEmployeeDayOff;
+        }
+
+        public EmployeeDayOff getDayOffByDayOffId(int dayOffId)
+        {
+            EmployeeDayOff employeeDayOff = furnitureCompanyContext.EmployeeDayOffs.FirstOrDefault(x => x.Id == dayOffId);
+            return employeeDayOff;
         }
 
         public EmployeeDayOff getDayOffIdByEmployee(int id)
@@ -41,19 +53,17 @@ namespace FurnitureCompany.Repository
       
         public EmployeeDayOff getEmployeeDayOffByEmployeeId(int employeeId)
         {
-            //EmployeeDayOff employeeDayoff = furnitureCompanyContext.EmployeeDayOffs..FirstOrDefault(x => x.EmployeeId == employeeId);
+           
             var employeeDayoff = furnitureCompanyContext.EmployeeDayOffs.Where(x => x.EmployeeId == employeeId).Include(x => x.Employee).FirstOrDefault();
             return employeeDayoff;
         }
 
-       /* public Employee getEmployeeDayOffByEmployeeIdTest(int employeeId)
+        public void updateDayOffByEmployee(EmployeeDayOff employeeDayOff)
         {
+            furnitureCompanyContext.EmployeeDayOffs.Update(employeeDayOff);
+            furnitureCompanyContext.SaveChanges();
+        }
 
-            //FromSqlRaw($"Select e.employee_name, e.employee_phone_number, edo.day_off, edo.reason from employee e join employee_day_off edo on e.employee_id = edo.employee_id where e.employee_id = {employeeId}").;    
-            //var sql = Select e.employee_name, e.employee_phone_number, edo.day_off, edo.reason from employee e join employee_day_off edo on e.employee_id = edo.employee_id where e.employee_id = $(id) ;
-           
-            var employee = furnitureCompanyContext.Employees.Where(x => x.EmployeeId == employeeId).Include(x => x.EmployeeDayOffs).FirstOrDefault();
-            return employee;
-        }*/
+       
     }
 }

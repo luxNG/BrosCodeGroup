@@ -55,6 +55,7 @@ builder.Services.AddScoped<IWorkingStatusRepository, WorkingStatusRepository>();
 
 //service map
 builder.Services.AddScoped<IEmployeeService, EmployeeServiceImpl>();
+builder.Services.AddScoped<IEmployeeDayOffService, EmployeeDayOffServiceImpl>();
 builder.Services.AddScoped<ISpecialtyService, SpecialtyServiceImpl>();
 builder.Services.AddScoped<ICategoryService, CategoryServiceImpl>();
 builder.Services.AddScoped<IManagerService, ManagerServiceImpl>();

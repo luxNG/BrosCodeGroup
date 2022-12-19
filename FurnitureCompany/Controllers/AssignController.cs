@@ -41,20 +41,19 @@ namespace FurnitureCompany.Controllers
         // POST api/<AssignController>
         [HttpPost]
         [Route("CreateAssignByManager/orderId/{id}")]
-        public void createAssignByManager(int id, ManagerAssignDto assignDto)
+        public async Task <IActionResult> createAssignByManager(int id, ManagerAssignDto assignDto)
         {
 
-            foreach (var item in assignDto.listEmployee)
+            try
             {
-                Assign assign = new Assign()
-                {
-                    OrderId = id,
-                    ManagerId = assignDto.ManagerId,
-                    EmployeeId = item.EmployeeId,
-                    CreateAssignAt = assignDto.CreateAssignAt,
-                    Status = true,
-                };
-                iAssignRepository.createAssign(assign);
+                ManagerAssignDto dtoReturn = await assignService.createAssignByManager(id, assignDto);
+                return Ok(dtoReturn);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Đã xảy ra lỗi khi tạo nhiệm vụ cho nhân viên, vui lòng thử lại. ");
+                
             }
              
             /*Order order = iManagerRepository.findandUpdateOrderStatusByManager(id);
@@ -79,9 +78,20 @@ namespace FurnitureCompany.Controllers
         }
 
         // DELETE api/<AssignController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut]
+        [Route("manager/deleteAssignByAssignId/{id}/employeeId/{employeeId}")]
+        public IActionResult managerDeleteAssignByAssignId(int id, int employeeId)
         {
+            try
+            {
+                Assign assign = assignService.deleteEmployeeFromAssignByAssignIdAndEmployeeId(id, employeeId);  
+                return Ok(assign);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã có lỗi xãy ra khi hủy nhiệm vụ của nhân viên, vui lòng thử lại. ");
+            }
         }
     }
 }

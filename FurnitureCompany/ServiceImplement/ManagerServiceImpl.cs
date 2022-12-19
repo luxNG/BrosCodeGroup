@@ -10,11 +10,15 @@ namespace FurnitureCompany.ServiceImplement
         private IManagerRepository managerRepository;
         private ICategoryRepository categoryRepository;
         private IOrderRepository orderRepository;
-        public ManagerServiceImpl(IManagerRepository managerRepository, ICategoryRepository categoryRepository, IOrderRepository orderRepository)
+        private ICustomerRepository customerRepository;
+        private IEmployeeRepository employeeRepository;
+        public ManagerServiceImpl(IManagerRepository managerRepository, ICategoryRepository categoryRepository, IOrderRepository orderRepository, ICustomerRepository customerRepository, IEmployeeRepository employeeRepository)
         {
             this.managerRepository = managerRepository;
             this.categoryRepository = categoryRepository;
             this.orderRepository = orderRepository;
+            this.customerRepository = customerRepository;
+            this.employeeRepository = employeeRepository;
         }
 
         public List<Category> getAllCategoryByManager()
@@ -56,6 +60,23 @@ namespace FurnitureCompany.ServiceImplement
             Order order = managerRepository.managerGetOrderDetailByOrderId(orderId);
             List<string> orderImageUrl = new List<string>();
             List<ManagerOrderServiceDetailDto> listServices = new List<ManagerOrderServiceDetailDto>();
+            List<ManagerGetListEmployeeOrderDetailDto> listEmployee = new List<ManagerGetListEmployeeOrderDetailDto>();
+
+            foreach (var item in order.Assigns)
+            {
+                listEmployee.Add(new ManagerGetListEmployeeOrderDetailDto()
+                {
+                    AssignId = item.AssignId,
+                    EmployeeId = item.EmployeeId,
+                    EmployeeName = item.Employee.EmployeeName,
+                    Email = item.Employee.Email,
+                    EmployeePhoneNumber = item.Employee.EmployeePhoneNumber,
+                    ImageUrl = item.Employee.ImageUrl,
+                    WorkingStatus = item.Employee.WorkingStatus
+                    
+                });
+            }
+
             foreach (var item in order.OrderServices)
             {
                 listServices.Add(new ManagerOrderServiceDetailDto()
@@ -77,8 +98,11 @@ namespace FurnitureCompany.ServiceImplement
                 OrderId = order.OrderId,
                 CustomerName = order.Customer.CustomerName,
                 CustomerPhone = order.Customer.CustomerPhone,
+                ImplementationDate = order.ImplementationDate,
+                ImplementationTime = order.ImplementationTime,
                 ImageUrl = orderImageUrl,
-                listOrderServiceInfor = listServices                
+                listOrderServiceInfor = listServices,
+                listEmployeeAssign = listEmployee
                 
             };
             return dto;
@@ -110,6 +134,34 @@ namespace FurnitureCompany.ServiceImplement
             order.TotalPrice = orderDto.TotalPrice;
             managerRepository.updateTotalPriceByManager(order);
             return order;
+        }
+
+        public List<Customer> managerGetCustomerOrderInforByCustomerPhoneNumber(string phoneNumber)
+        {
+            List<Customer> customer = customerRepository.managerGetCustomerInforByPhoneNumber(phoneNumber);
+            return customer;
+        }
+
+        public List<ManagerGetAllEmployeeInforDto> managerGetAllEmployeeInfor()
+        {
+            List<Employee> list = employeeRepository.getAllEmployee();
+            List<ManagerGetAllEmployeeInforDto> dto = new List<ManagerGetAllEmployeeInforDto>();
+            foreach (var item in list)
+            {
+                dto.Add(new ManagerGetAllEmployeeInforDto()
+                {
+                    EmployeeId = item.EmployeeId,
+                    EmployeeName = item.EmployeeName,
+                    EmployeePhoneNumber = item.EmployeePhoneNumber,
+                    Email = item.Email,
+                    ImageUrl = item.ImageUrl,
+                    SpecialtyId = item.SpecialtyId,
+                    SpecialtyName = item.Specialty.SpecialtyName,
+                    WorkingStatus = item.WorkingStatus,
+                    Status = item.Status
+                });
+            }
+            return dto;
         }
     }
 }

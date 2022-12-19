@@ -1,5 +1,6 @@
 ﻿using FurnitureCompany.DTO;
 using FurnitureCompany.IRepository;
+using FurnitureCompany.IService;
 using FurnitureCompany.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,71 +8,33 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FurnitureCompany.Controllers
 {
-    [Route("api/employeeDayOff")]
+    [Route("api/employeeDayOff/")]
     [ApiController]
     public class EmployeeDayOffController : ControllerBase
     {
         private IEmployeeDayOffRepository iEmployeeDayOffRepository;
-        public EmployeeDayOffController(IEmployeeDayOffRepository iEmployeeDayOffRepository)
+        private IEmployeeDayOffService employeeDayOffService;
+        public EmployeeDayOffController(IEmployeeDayOffRepository iEmployeeDayOffRepository, IEmployeeDayOffService employeeDayOffService)
         {
 
             this.iEmployeeDayOffRepository = iEmployeeDayOffRepository;
+            this.employeeDayOffService = employeeDayOffService;
         }
 
         // GET: api/<EmployeeDayOffController>
         [HttpGet]
-        [Route("getAllEmployeeDayOff")]
+        [Route("getAllEmployeeDayOff/cai_nay_BE_test_ko_dung")]
         public IActionResult getAllEmployeeDayOff()
         {
             List<EmployeeDayOff> listEmployeeDayOff = iEmployeeDayOffRepository.getAllEmployeeDayOff();
             return Ok(listEmployeeDayOff);
         }
 
-        // GET api/<EmployeeDayOffController>/5
-        [HttpGet("getDayOffByEmployeeId/{id}")]
-        public IActionResult getDayOffByEmployeeId(int id)
-        {
-            EmployeeDayOff e = iEmployeeDayOffRepository.getEmployeeDayOffByEmployeeId(id);
-            return Ok(e);
-        }
+       
+        
 
-        // GET api/<EmployeeDayOffController>/5
-      /*  [HttpGet("getDayOffByEmployeeIdTest/{id}")]
-        public IActionResult getDayOffByEmployeeIdTest(int id)
-        {
-            Employee e = iEmployeeDayOffRepository.getEmployeeDayOffByEmployeeIdTest(id);
-            return Ok(e);
-        }*/
+       
 
-        // POST api/<EmployeeDayOffController>
-        [HttpPost]
-        [Route("EmployeeFormForAbsent")]
-        public void Post(EmployeeDayOffDto employeeDayOffDto)
-        {
-            EmployeeDayOff employeeDayOff = new EmployeeDayOff()
-            {
-                EmployeeId = employeeDayOffDto.EmployeeId,
-                Reason = employeeDayOffDto.Reason,
-                // sau này khi đã kết nối với mobile
-                // thì chuyển lại thành giờ để test local " employeeDayOffDto.DayOff"
-                DayOff = DateTime.Now, 
-            };
-            iEmployeeDayOffRepository.employeeTakeDayOff(employeeDayOff);
-        }
-
-        // PUT api/<EmployeeDayOffController>/5
-        [HttpPut("{id}")]
-        public void Put(int id)
-        {
-
-        }
-
-        // DELETE api/<EmployeeDayOffController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            EmployeeDayOff e = iEmployeeDayOffRepository.getDayOffIdByEmployee(id);
-            iEmployeeDayOffRepository.deleteDayOffByEmployee(e);
-        }
+       
     }
 }

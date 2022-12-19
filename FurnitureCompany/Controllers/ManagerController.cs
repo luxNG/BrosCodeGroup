@@ -185,6 +185,38 @@ namespace FurnitureCompany.Controllers
                 return BadRequest("không thể lấy thông tin dịch vụ, vui lòng thủ lại");
             }
         }
+
+        [HttpGet]
+        [Route("getCustomerInforByCustomerPhone/{phoneNumber}")]
+        public IActionResult managerGetCustomerInforByCustomerPhone(string phoneNumber)
+        {
+            try
+            {
+                List<Customer> list = managerService.managerGetCustomerOrderInforByCustomerPhoneNumber(phoneNumber);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã có lỗi xảy ra khi lấy thông tin, vui lòng thử lại. ");
+            }
+        }
+
+        [HttpGet]
+        [Route("getAllEmployeeInformation")]
+        public IActionResult managerGetAllEmployeeInformation()
+        {
+            try
+            {
+                List<ManagerGetAllEmployeeInforDto> list = managerService.managerGetAllEmployeeInfor();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã có lỗi xãy ra khi lấy thông tin, vui lòng thử lại. ");
+            }
+        }
        /* [HttpGet]
         [Route("getAllAccountEmployee")]
         public IActionResult managerGetAllAccountInformationOfEmployee()

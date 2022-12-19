@@ -14,13 +14,15 @@ namespace FurnitureCompany.Controllers
     {
         private IEmployeeRepository iEmployeeRepository;
         private IEmployeeService iEmployeeService;
+        private IEmployeeDayOffService employeeDayOffService;
        
-        public EmployeeController(IEmployeeRepository iEmployeeRepository, IEmployeeService iEmployeeService)
+        public EmployeeController(IEmployeeRepository iEmployeeRepository, IEmployeeService iEmployeeService, IEmployeeDayOffService employeeDayOffService)
         {
-            this.iEmployeeRepository = iEmployeeRepository;           
+            this.iEmployeeRepository = iEmployeeRepository;
             this.iEmployeeService = iEmployeeService;
+            this.employeeDayOffService = employeeDayOffService;
         }
-        
+
         // Lấy danh sách tất cả employee có trong database thực hiện bởi manager
         [HttpGet]
         [Route("/getAllEmployee")]
@@ -175,6 +177,73 @@ namespace FurnitureCompany.Controllers
             }
           
         }
+
+        [HttpGet]
+        [Route("getAllDayOffbyEmployeeId/employeeId/{id}")]
+        public IActionResult getAllDayOffByEmployeeId(int id)
+        {
+            try
+            {
+                List<EmployeeDayOff> list = employeeDayOffService.getAllDayOffByEmployeeId(id);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("không thể tải thông tin, vui lòng thử lại");
+            }
+        }
+
+        // POST api/<EmployeeDayOffController>
+        [HttpPost]
+        [Route("employeeCreateFormForAbsent")]
+        public IActionResult employeeCreateAbsentForm(EmployeeDayOffDto employeeDayOffDto)
+        {
+            try
+            {
+                EmployeeDayOff employeeDayOff = employeeDayOffService.employeeCreateAbsentForm(employeeDayOffDto);
+                return Ok(employeeDayOff);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Đã có lỗi xảy ra khi tạo form, vui lòng thử lại. ");
+            }
+
+        }
+
+        // PUT api/<EmployeeDayOffController>/5
+        [HttpPut]
+        [Route("updateDayOffInformation/dayOffId/{id}")]
+        public IActionResult employeeUpdateDayOffInformation(int id, EmployeeUpdateDayOffDto dto)
+        {
+            try
+            {
+                EmployeeDayOff employeeDayOff = employeeDayOffService.employeeUpdateDayOffDayOffId(id, dto);
+                return Ok(employeeDayOff);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Có lỗi xảy ra trong quá trình cập nhật, vui lòng thử lại.");
+            }
+        }
+
+        [HttpPut]
+        [Route("employeeCancelAbsentFormByFormId/{id}")]
+        public IActionResult employeeCancelAbsentFormByFormId(int id)
+        {
+            try
+            {
+                EmployeeDayOff employeeDayOff = employeeDayOffService.cancelAbsentFormByFormId(id);
+                return Ok(employeeDayOff);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Đã có lỗi xảy ra khi hủy đơn, vui lòng thử lại. ");
+            }
+        }
+
+
+
 
     }
 }

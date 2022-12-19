@@ -259,6 +259,8 @@ namespace FurnitureCompany.Data
 
                 entity.Property(e => e.Reason).HasColumnName("reason");
 
+                entity.Property(e => e.Status).HasColumnName("status");
+
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.EmployeeDayOffs)
                     .HasForeignKey(d => d.EmployeeId)

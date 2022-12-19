@@ -57,6 +57,12 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
         }
 
+        public Assign getAssignByIdAndEmployeeId(int assignId, int employeeId)
+        {
+            Assign assign = furnitureCompanyContext.Assigns.Include(x => x.Employee).FirstOrDefault(x => x.AssignId == assignId && x.EmployeeId == employeeId);
+            return assign;    
+        }
+
         public List<Assign> getOrderWorkingStatusByEmployee(int employeeId, int orderWorkingStatusId)
         {
             List<Assign> listAssign = furnitureCompanyContext.Assigns.Where(x=>x.EmployeeId == employeeId).Include(x => x.Order).ThenInclude(x=>x.Customer).Include(x=>x.Order).ThenInclude(x=>x.WorkingStatus).Where(x=>x.Order.WorkingStatusId == orderWorkingStatusId).ToList();
