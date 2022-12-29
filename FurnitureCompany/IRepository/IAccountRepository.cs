@@ -14,5 +14,7 @@ namespace FurnitureCompany.IRepository
         public Account insertRefreshTokenToDb(int accountId, string refreshToken);
 
         public Account logoutAccountByDeleteRefreshToken(int accountId);
+
+        public void customerCreateAccount(Account account);
     }
 }

@@ -94,5 +94,11 @@ namespace FurnitureCompany.Repository
             Order order = furnitureCompanyContext.Orders.Include(x => x.OrderServices).Where(x => x.OrderId == orderId && x.CustomerId == customerId).FirstOrDefault();
             return order;
         }
+
+        public List<Order> customerGetListOrderAndOrderServiceByCustomerId(int customerId)
+        {
+            List<Order> orders = furnitureCompanyContext.Orders.Where(x => x.CustomerId == customerId).Include(x=>x.OrderServices).ToList();
+            return orders;
+        }
     }
 }

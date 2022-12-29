@@ -8,7 +8,7 @@
         public string ServiceName { get; set; }
         public string? CategoryName { get; set; }
         public string? EstimateTimeFinish { get; set; }
-        public string? Address { get; set; }
+        public string Address { get; set; } = null!;
         public string? Description { get; set; }
         public string? CustomerPhone { get; set; }
         public string? CustomerName { get; set; }

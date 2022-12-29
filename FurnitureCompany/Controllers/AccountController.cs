@@ -12,10 +12,21 @@ namespace FurnitureCompany.Controllers
     public class AccountController : ControllerBase
     {
         private IAccountService accountService;
-        public AccountController(IAccountService accountService)
+        private ICustomerService customerService;
+        public AccountController(IAccountService accountService, ICustomerService customerService)
         {
             this.accountService = accountService;
+            this.customerService = customerService;
         }
+
+        [HttpPost]
+        [Route("register")]
+        public IActionResult CustomerRegisterAccount(CustomerCreateAccountDto dto)
+        {
+            CustomerCreateAccountDto customerCreateAccountDto = customerService.customerCreateAccount(dto);
+            return Ok(customerCreateAccountDto);
+        }
+
         // GET: api/<AccountController>
         [HttpGet]
         public IEnumerable<string> Get()

@@ -9,5 +9,7 @@ namespace FurnitureCompany.IService
         public ManagerCreateEmployeeeAccountDto managerCreateEmployeeeAccountDto(ManagerCreateEmployeeeAccountDto managerCreateEmployeeeAccountDto);
         public UserTokenDto loginIntoServer(LoginDto loginDto);
         public Account userLogoutAccount(int accountId);
+
+        
     }
 }

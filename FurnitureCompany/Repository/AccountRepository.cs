@@ -15,6 +15,12 @@ namespace FurnitureCompany.Repository
             this.furnitureCompanyContext = furnitureCompanyContext;
         }
 
+        public void customerCreateAccount(Account account)
+        {
+            furnitureCompanyContext.Accounts.Add(account);
+            furnitureCompanyContext.SaveChanges();
+        }
+
         public bool findRefreshTokenIsUsing(string refreshTokenAfterEncode)
         {
             bool isExist = furnitureCompanyContext.Accounts.Any(x => x.RefreshToken == refreshTokenAfterEncode);

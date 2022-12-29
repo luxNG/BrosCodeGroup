@@ -8,6 +8,7 @@
         public string ServiceName { get; set; }
         public string Price { get; set; } = null!;
         public string? CategoryName { get; set; }
+        public int? Quantity { get; set; }
         public string? EstimateTimeFinish { get; set; }
 
 

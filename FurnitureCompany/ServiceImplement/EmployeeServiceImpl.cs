@@ -73,6 +73,7 @@ namespace FurnitureCompany.ServiceImplement
                     Price = item.Service.Price,
                     EstimateTimeFinish = item.EstimateTimeFinish,
                     CategoryName = item.Service.Category.CategoryName,
+                    Quantity = item.Quantity
                 }) ;
             }
             EmployeeGetOrderDetailDto order = new EmployeeGetOrderDetailDto()

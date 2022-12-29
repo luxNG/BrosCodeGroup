@@ -99,11 +99,11 @@ namespace FurnitureCompany.ServiceImplement
             userCliams.Add(new Claim(ClaimTypes.Role, account.Role.RoleName));
 
             var jwtToken = new JwtSecurityToken(
-                issuer: "https://furnituremanagementservice.azurewebsites.net",
-                expires: DateTime.Now.AddHours(1),
+                issuer: "http://furniturecompany-001-site1.btempurl.com",
+                expires: DateTime.Now.AddHours(5),
                 signingCredentials: credentials,
                 claims: userCliams,
-                audience: "https://furnituremanagementservice.azurewebsites.net"
+                audience: "http://furniturecompany-001-site1.btempurl.com"
             );
             string token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return token;

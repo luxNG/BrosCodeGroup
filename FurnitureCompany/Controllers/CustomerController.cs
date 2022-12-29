@@ -265,7 +265,7 @@ namespace FurnitureCompany.Controllers
 
         [HttpPut]
         [Route("updateOrder/orderId/{id}/customerId/{customerId}")]
-        public  async Task<IActionResult> customerUpdateOrderByOrderId(int id, int customerId, CustomerUpdateOrderDto dto)
+        public async Task<IActionResult> customerUpdateOrderByOrderId(int id, int customerId, CustomerUpdateOrderDto dto)
         {
            try
            {
@@ -276,6 +276,23 @@ namespace FurnitureCompany.Controllers
            {
                return BadRequest("Đã có lỗi xảy ra khi cập nhật đơn hàng, vui lòng thử lại");
            }
+        }
+
+
+        [HttpGet]
+        [Route("getListOrderByCustomerId/{id}")]
+        public IActionResult getListOrderByCustomerId(int id)
+        {
+            try
+            {
+                List<Order> list = customerService.customerGetAllOrderByCustomerId(id);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã xảy ra lỗi khi lấy thông tin, vui lòng thử lại. ");
+            }
         }
     }
 }

@@ -100,6 +100,8 @@ namespace FurnitureCompany.ServiceImplement
                 CustomerPhone = order.Customer.CustomerPhone,
                 ImplementationDate = order.ImplementationDate,
                 ImplementationTime = order.ImplementationTime,
+                StatusId = order.WorkingStatus.StatusId,
+                StatusName = order.WorkingStatus.StatusName,
                 ImageUrl = orderImageUrl,
                 listOrderServiceInfor = listServices,
                 listEmployeeAssign = listEmployee

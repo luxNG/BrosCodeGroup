@@ -21,8 +21,33 @@ builder.Services.AddEndpointsApiExplorer();
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
     
 });*/
+//aaa
+//builder.Services.AddSwaggerGen();
+//
+//config cho swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "JWT Authentication",
+        Description = "Enter a valid JWT beare token",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
 
-builder.Services.AddSwaggerGen();
+        }
+    };
+    options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {securityScheme, new string[]{} }
+    });
+});
 //add CORS
 builder.Services.AddCors();
 
@@ -75,9 +100,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     ValidateAudience = true,
     ValidateLifetime = true,
     ValidateIssuerSigningKey = true,
-    ValidIssuer = "https://furnituremanagementservice.azurewebsites.net",
+    ValidIssuer = "http://furniturecompany-001-site1.btempurl.com",
     //ValidAudience ko co s cuoi cung
-    ValidAudience = "https://furnituremanagementservice.azurewebsites.net",
+    ValidAudience = "http://furniturecompany-001-site1.btempurl.com",
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("helloearththisismysecrectkeyforjwt123456789"))
 });
 

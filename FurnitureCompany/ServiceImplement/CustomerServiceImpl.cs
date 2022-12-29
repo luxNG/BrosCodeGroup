@@ -11,13 +11,15 @@ namespace FurnitureCompany.ServiceImplement
         private IServiceRepository serviceRepository;
         private IOrderRepository orderRepository;
         private IOrderServiceRepository orderServiceRepository;
+        private IAccountRepository accountRepository;
 
-        public CustomerServiceImpl(ICustomerRepository customerRepository, IOrderRepository orderRepository, IServiceRepository serviceRepository, IOrderServiceRepository orderServiceRepository)
+        public CustomerServiceImpl(ICustomerRepository customerRepository, IOrderRepository orderRepository, IServiceRepository serviceRepository, IOrderServiceRepository orderServiceRepository, IAccountRepository accountRepository)
         {
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
             this.serviceRepository = serviceRepository;
             this.orderServiceRepository = orderServiceRepository;
+            this.accountRepository = accountRepository;
         }
 
         public List<Customer> getAllCustomer()
@@ -163,6 +165,32 @@ namespace FurnitureCompany.ServiceImplement
 
             orderRepository.updateOrder(order);
             return order;
+        }
+
+        public List<Order> customerGetAllOrderByCustomerId(int customerId)
+        {
+            List<Order> list = orderRepository.customerGetListOrderAndOrderServiceByCustomerId(customerId);
+            return list;
+
+        }
+
+        public CustomerCreateAccountDto customerCreateAccount(CustomerCreateAccountDto dto)
+        {
+            Account customerAccount = new Account()
+            {
+                Username = dto.Username,
+                Password = dto.Password,
+                Customer = new Customer()
+                {
+                    CustomerName = dto.CustomerName,
+                    CustomerPhone = dto.CustomerPhone
+                },
+                RoleId = dto.RoleId,
+                CreateAt = dto.CreateAt,                
+                AccountStatus = true
+            };
+            accountRepository.customerCreateAccount(customerAccount);
+            return dto;
         }
     }
 }
