@@ -21,11 +21,31 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.SaveChanges();
         }
 
+        public Customer findAccountDetailByRoleCustomer(int accountId)
+        {
+            Customer accountDetail = furnitureCompanyContext.Customers.Include(x => x.Account).ThenInclude(x=>x.Role).FirstOrDefault(x => x.AccountId == accountId);
+            return accountDetail;
+        }
+
+        public Employee findAccountDetailByRoleEmployee(int accountId)
+        {
+            Employee accountDetail = furnitureCompanyContext.Employees.Include(x => x.Account).ThenInclude(x => x.Role).FirstOrDefault(x => x.AccountId == accountId);
+            return accountDetail;
+        }
+
+        public Manager findAccountDetailByRoleManager(int accountId)
+        {
+            Manager accountDetail = furnitureCompanyContext.Managers.Include(x => x.Account).ThenInclude(x => x.Role).FirstOrDefault(x => x.AccountId == accountId);
+            return accountDetail;
+        }
+
         public bool findRefreshTokenIsUsing(string refreshTokenAfterEncode)
         {
             bool isExist = furnitureCompanyContext.Accounts.Any(x => x.RefreshToken == refreshTokenAfterEncode);
             return isExist;
         }
+
+       
 
         public Account findUsernameAndPasswordToLogin(LoginDto loginDto)
         {

@@ -64,7 +64,42 @@ namespace FurnitureCompany.ServiceImplement
         public UserTokenDto loginIntoServer(LoginDto loginDto)
         {
             Account account = accountRepository.findUsernameAndPasswordToLogin(loginDto);
-            if (account != null)
+            string roleName = account.Role.RoleName;
+            UserLoginBasicInformationDto dto = new UserLoginBasicInformationDto();
+            if (roleName.Equals("customer"))
+            {
+             Customer customer  = accountRepository.findAccountDetailByRoleCustomer(account.AccountId);
+                dto.AccountId = customer.AccountId;
+                dto.UserId = customer.CustomerId;
+                dto.UserName = customer.CustomerName;
+                dto.UserPhone = customer.CustomerPhone;
+                dto.RoleName = customer.Account.Role.RoleName;
+
+                
+            }
+            else if (roleName.Equals("employee"))
+            {
+                Employee employee = accountRepository.findAccountDetailByRoleEmployee(account.AccountId);
+                dto.AccountId = employee.AccountId;
+                dto.UserId = employee.EmployeeId;
+                dto.UserName = employee.EmployeeName;
+                dto.UserPhone = employee.EmployeePhoneNumber;
+                dto.RoleName = employee.Account.Role.RoleName;
+            }
+            else if (roleName.Equals("manager"))
+            {
+                Manager manager = accountRepository.findAccountDetailByRoleManager(account.AccountId);
+                dto.AccountId = manager.AccountId;
+                dto.UserId = manager.ManagerId;
+                dto.UserName = manager.ManagerName;
+                dto.UserPhone = manager.ManagerPhoneNumber;
+                dto.RoleName = manager.Account.Role.RoleName;
+            }
+            else
+            {
+                return null;
+            }
+            if (account != null && dto.UserPhone != null)
             {
                 var access_Token = createJwtToken(account);
                 var refresh_Token = createRefreshToken();
@@ -72,8 +107,11 @@ namespace FurnitureCompany.ServiceImplement
                 UserTokenDto userTokenDto = new UserTokenDto()
                 {
                     accessToken = access_Token,
-                    refreshToken = refresh_Token
+                    refreshToken = refresh_Token,
+                    userLoginBasicInformationDto = dto
+                              
                 };
+               
                 return userTokenDto;
             }
             return null;

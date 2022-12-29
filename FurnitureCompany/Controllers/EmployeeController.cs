@@ -10,6 +10,7 @@ namespace FurnitureCompany.Controllers
 {
     [Route("employee")]
     [ApiController]
+    
     public class EmployeeController : ControllerBase
     {
         private IEmployeeRepository iEmployeeRepository;

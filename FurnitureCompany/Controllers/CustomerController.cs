@@ -2,14 +2,17 @@
 using FurnitureCompany.IRepository;
 using FurnitureCompany.IService;
 using FurnitureCompany.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FurnitureCompany.Controllers
 {
+    
     [Route("/api/customer/")]
     [ApiController]
+    [Authorize(Roles="customer")]
     public class CustomerController : ControllerBase
     {
         

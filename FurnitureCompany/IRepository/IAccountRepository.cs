@@ -16,5 +16,9 @@ namespace FurnitureCompany.IRepository
         public Account logoutAccountByDeleteRefreshToken(int accountId);
 
         public void customerCreateAccount(Account account);
+
+        public Manager findAccountDetailByRoleManager(int accountId);
+        public Employee findAccountDetailByRoleEmployee(int accountId);
+        public Customer findAccountDetailByRoleCustomer(int accountId);
     }
 }
