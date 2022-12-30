@@ -69,9 +69,11 @@ namespace FurnitureCompany.ServiceImplement
             if (roleName.Equals("customer"))
             {
              Customer customer  = accountRepository.findAccountDetailByRoleCustomer(account.AccountId);
+                dto.UsernameLogin = customer.Account.Username;
+                dto.PasswordLogin = customer.Account.Password;
                 dto.AccountId = customer.AccountId;
                 dto.UserId = customer.CustomerId;
-                dto.UserName = customer.CustomerName;
+                dto.FullUserName = customer.CustomerName;
                 dto.UserPhone = customer.CustomerPhone;
                 dto.RoleName = customer.Account.Role.RoleName;
 
@@ -80,18 +82,22 @@ namespace FurnitureCompany.ServiceImplement
             else if (roleName.Equals("employee"))
             {
                 Employee employee = accountRepository.findAccountDetailByRoleEmployee(account.AccountId);
+                dto.UsernameLogin = employee.Account.Username;
+                dto.PasswordLogin = employee.Account.Password;
                 dto.AccountId = employee.AccountId;
                 dto.UserId = employee.EmployeeId;
-                dto.UserName = employee.EmployeeName;
+                dto.FullUserName = employee.EmployeeName;
                 dto.UserPhone = employee.EmployeePhoneNumber;
                 dto.RoleName = employee.Account.Role.RoleName;
             }
             else if (roleName.Equals("manager"))
             {
                 Manager manager = accountRepository.findAccountDetailByRoleManager(account.AccountId);
+                dto.UsernameLogin = manager.Account.Username;
+                dto.PasswordLogin = manager.Account.Password;
                 dto.AccountId = manager.AccountId;
                 dto.UserId = manager.ManagerId;
-                dto.UserName = manager.ManagerName;
+                dto.FullUserName = manager.ManagerName;
                 dto.UserPhone = manager.ManagerPhoneNumber;
                 dto.RoleName = manager.Account.Role.RoleName;
             }
@@ -101,7 +107,7 @@ namespace FurnitureCompany.ServiceImplement
             }
             if (account != null && dto.UserPhone != null)
             {
-                var access_Token = createJwtToken(account);
+                var access_Token = createJwtToken(dto);
                 var refresh_Token = createRefreshToken();
                 InsertRefreshToken(account.AccountId, refresh_Token);
                 UserTokenDto userTokenDto = new UserTokenDto()
@@ -117,7 +123,7 @@ namespace FurnitureCompany.ServiceImplement
             return null;
         }
 
-        public string createJwtToken(Account account)
+        public string createJwtToken(UserLoginBasicInformationDto account)
         {
             var symmetricSecurityKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes("helloearththisismysecrectkeyforjwt123456789")
@@ -132,9 +138,11 @@ namespace FurnitureCompany.ServiceImplement
 
              };*/
             var userCliams = new List<Claim>();
-            userCliams.Add(new Claim("username", account.Username));
-            userCliams.Add(new Claim("password", account.Password));
-            userCliams.Add(new Claim(ClaimTypes.Role, account.Role.RoleName));
+            userCliams.Add(new Claim("username", account.UsernameLogin));
+            userCliams.Add(new Claim("password", account.PasswordLogin));
+            userCliams.Add(new Claim(ClaimTypes.Sid, account.UserId.ToString()));
+            userCliams.Add(new Claim(ClaimTypes.Role, account.RoleName));
+           
 
             var jwtToken = new JwtSecurityToken(
                 issuer: "http://furniturecompany-001-site1.btempurl.com",
