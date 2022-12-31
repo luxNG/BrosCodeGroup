@@ -17,7 +17,9 @@ namespace FurnitureCompany.IService
         public List<Order> customerGetAllOrderByCustomerId(int customerId);
 
         public CustomerCreateAccountDto customerCreateAccount(CustomerCreateAccountDto dto);
-        
+
+        public CustomerUpdateUsernameAndPasswordDto CustomerUpdateUsernameAndPassword(int accountId, CustomerUpdateUsernameAndPasswordDto dto);
+
 
     }
 }

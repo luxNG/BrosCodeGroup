@@ -176,20 +176,41 @@ namespace FurnitureCompany.ServiceImplement
 
         public CustomerCreateAccountDto customerCreateAccount(CustomerCreateAccountDto dto)
         {
-            Account customerAccount = new Account()
+            bool isCustomerUsernamePhoneExist = accountRepository.findCustomerUserNamePhoneAccountIsExist(dto.Username);
+
+            if (!isCustomerUsernamePhoneExist)
             {
-                Username = dto.Username,
-                Password = dto.Password,
-                Customer = new Customer()
+                Account customerAccount = new Account()
                 {
-                    CustomerName = dto.CustomerName,
-                    CustomerPhone = dto.CustomerPhone
-                },
-                RoleId = dto.RoleId,
-                CreateAt = dto.CreateAt,                
-                AccountStatus = true
-            };
-            accountRepository.customerCreateAccount(customerAccount);
+                    Username = dto.Username,
+                    Password = dto.Password,
+                    Customer = new Customer()
+                    {
+                        CustomerName = dto.CustomerName,
+                        CustomerPhone = dto.CustomerPhone
+                    },
+                    RoleId = dto.RoleId,
+                    CreateAt = dto.CreateAt,
+                    AccountStatus = true
+                };
+                accountRepository.customerCreateAccount(customerAccount);
+            }
+            else
+            {
+                return null;
+            }            
+           
+            return dto;
+        }
+
+        public CustomerUpdateUsernameAndPasswordDto CustomerUpdateUsernameAndPassword(int accountId, CustomerUpdateUsernameAndPasswordDto dto)
+        {
+            Account account = accountRepository.findAccountByAccountId(accountId);
+            if(account!=null)
+            account.Username = dto.Username;
+            account.Password = dto.Password;
+            account.UpdateAt = dto.UpdateAt;
+            accountRepository.customerUpdateUsernameAndPassword(account);
             return dto;
         }
     }

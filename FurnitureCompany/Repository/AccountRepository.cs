@@ -39,6 +39,12 @@ namespace FurnitureCompany.Repository
             return accountDetail;
         }
 
+        public bool findCustomerUserNamePhoneAccountIsExist(string customerUsernamePhone)
+        {
+            bool isExist = furnitureCompanyContext.Accounts.Any(x => x.Username.Equals(customerUsernamePhone));
+            return isExist;
+        }
+
         public bool findRefreshTokenIsUsing(string refreshTokenAfterEncode)
         {
             bool isExist = furnitureCompanyContext.Accounts.Any(x => x.RefreshToken == refreshTokenAfterEncode);
@@ -79,6 +85,18 @@ namespace FurnitureCompany.Repository
         {
             furnitureCompanyContext.Accounts.Add(account);
             furnitureCompanyContext.SaveChanges();
+        }
+
+        public void customerUpdateUsernameAndPassword(Account account)
+        {
+            furnitureCompanyContext.Accounts.Update(account);
+            furnitureCompanyContext.SaveChanges();
+        }
+
+        public Account findAccountByAccountId(int accountId)
+        {
+            Account account = furnitureCompanyContext.Accounts.FirstOrDefault(x => x.AccountId == accountId);
+            return account;
         }
     }
 }

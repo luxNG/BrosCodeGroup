@@ -23,8 +23,23 @@ namespace FurnitureCompany.Controllers
         [Route("register")]
         public IActionResult CustomerRegisterAccount(CustomerCreateAccountDto dto)
         {
-            CustomerCreateAccountDto customerCreateAccountDto = customerService.customerCreateAccount(dto);
-            return Ok(customerCreateAccountDto);
+            try
+            {
+                CustomerCreateAccountDto customerCreateAccountDto = customerService.customerCreateAccount(dto);
+                if (customerCreateAccountDto == null)
+                {
+                    return BadRequest("Số điện thoại đã tồn tại, vui lòng dùng số điện thoại khác.");
+                    
+                }
+                return Ok(customerCreateAccountDto);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã xảy ra lỗi trong quá trình tạo tài khoản, vui lòng thử lại. ");
+            }
+            
+            
         }
 
         // GET: api/<AccountController>
@@ -46,8 +61,23 @@ namespace FurnitureCompany.Controllers
         [Route("login")]
         public IActionResult loginIntoServer(LoginDto loginDto)
         {
-            UserTokenDto accessAndRefreshToken = accountService.loginIntoServer(loginDto);
-            return Ok(accessAndRefreshToken);
+            try
+            {
+                UserTokenDto accessAndRefreshToken = accountService.loginIntoServer(loginDto);
+                if(accessAndRefreshToken == null)
+                {
+                    return BadRequest("Số điện thoại đăng nhập hoặc mật khẩu sai, vui lòng nhập lại. ");
+                }
+                return Ok(accessAndRefreshToken);
+
+            }
+            catch (Exception)
+            {
+
+                return NotFound("Đã xảy ra lỗi trong quá trình đăng nhập, vui lòng thử lại. ");
+
+            }
+            
         }
 
         // PUT api/<AccountController>/5

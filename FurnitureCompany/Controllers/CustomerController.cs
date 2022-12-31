@@ -297,5 +297,20 @@ namespace FurnitureCompany.Controllers
                 return BadRequest("Đã xảy ra lỗi khi lấy thông tin, vui lòng thử lại. ");
             }
         }
+
+        [HttpPut]
+        [Route("customerUpdateUsernameAndPassword/accountId/{id}")]
+        public IActionResult customerUpdateUsernameAndPassword(int id, CustomerUpdateUsernameAndPasswordDto dto)
+        {
+            try
+            {
+                CustomerUpdateUsernameAndPasswordDto customerUpdateUsernameAndPasswordDto = customerService.CustomerUpdateUsernameAndPassword(id,dto);
+                return Ok(customerUpdateUsernameAndPasswordDto);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Đã có lỗi xảy ra khi cập nhật thông tin, vui lòng thử lại. ");
+            }
+        }
     }
 }
