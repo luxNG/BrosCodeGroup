@@ -17,7 +17,11 @@ namespace FurnitureCompany.IRepository
         public Customer findAccountDetailByRoleCustomer(int accountId);
         public bool findCustomerUserNamePhoneAccountIsExist(string customerUsernamePhone);
         public void customerUpdateUsernameAndPassword(Account account);
-
         public Account findAccountByAccountId(int accountId);
+        public bool findPasswordIsTrueInAccount(int accountId, string password);
+
+      //  public bool findRefreshTokenIsExist(RefreshTokenDto dto);
+
+        //public Account findUserIdUsingRefreshTokenUserId();
     }
 }

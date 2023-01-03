@@ -288,7 +288,7 @@ namespace FurnitureCompany.Controllers
         {
             try
             {
-                List<Order> list = customerService.customerGetAllOrderByCustomerId(id);
+                List<CustomerGetListOrderAndOrderServiceDto> list = customerService.customerGetAllOrderByCustomerId(id);
                 return Ok(list);
             }
             catch (Exception)
@@ -299,13 +299,19 @@ namespace FurnitureCompany.Controllers
         }
 
         [HttpPut]
-        [Route("customerUpdateUsernameAndPassword/accountId/{id}")]
+        [Route("customerChangePassword/accountId/{id}")]
         public IActionResult customerUpdateUsernameAndPassword(int id, CustomerUpdateUsernameAndPasswordDto dto)
         {
             try
             {
                 CustomerUpdateUsernameAndPasswordDto customerUpdateUsernameAndPasswordDto = customerService.CustomerUpdateUsernameAndPassword(id,dto);
-                return Ok(customerUpdateUsernameAndPasswordDto);
+                if(customerUpdateUsernameAndPasswordDto != null)
+                {
+                    return Ok(customerUpdateUsernameAndPasswordDto);
+                }
+                
+                    return BadRequest("Mật khẩu không đúng, vui lòng nhập lại. ");         
+                
             }
             catch (Exception)
             {

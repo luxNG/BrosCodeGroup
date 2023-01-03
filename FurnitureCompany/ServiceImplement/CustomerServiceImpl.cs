@@ -136,6 +136,7 @@ namespace FurnitureCompany.ServiceImplement
         public async Task<Order> customerUpdateOrderByOrderIdAsync(int orderId, int customerId, CustomerUpdateOrderDto dto)
         {
             Order order = orderRepository.customerUpdateOrderByOrderIdAndCustomerId(orderId, customerId);
+            order.TotalPrice = dto.TotalPrice;
             order.Address = dto.Address;
             order.ImplementationDate = dto.ImplementationDate;
             order.ImplementationTime = dto.ImplementationTime;
@@ -167,10 +168,47 @@ namespace FurnitureCompany.ServiceImplement
             return order;
         }
 
-        public List<Order> customerGetAllOrderByCustomerId(int customerId)
+        public List<CustomerGetListOrderAndOrderServiceDto> customerGetAllOrderByCustomerId(int customerId)
         {
             List<Order> list = orderRepository.customerGetListOrderAndOrderServiceByCustomerId(customerId);
-            return list;
+            List<CustomerGetListOrderAndOrderServiceDto> dtoList = new List<CustomerGetListOrderAndOrderServiceDto>();
+            List<CustomerGetListOrderServiceDto> dtoListOrderService = new List<CustomerGetListOrderServiceDto>();
+           
+            foreach (var item in list)
+            {
+                foreach (var itemDto in item.OrderServices)
+                {
+                    dtoListOrderService.Add(new CustomerGetListOrderServiceDto()
+                    {
+                        OrderServiceId = itemDto.OrderServiceId,
+                        Quantity = itemDto.Quantity,
+                        ServiceId = itemDto.Service.ServiceId,
+                        ServiceName = itemDto.Service.ServiceName,
+                        Price=itemDto.Service.Price
+                    });
+                }
+            }
+
+            foreach (var item in list)
+            {
+                dtoList.Add(new CustomerGetListOrderAndOrderServiceDto()
+                {
+                    OrderId = item.OrderId,
+                    WorkingStatusId = item.WorkingStatusId,
+                    CustomerId = item.CustomerId,
+                    Address = item.Address,
+                    CreateAt = item.CreateAt,
+                    UpdateAt = item.UpdateAt,
+                    Description = item.Description,
+                    ImplementationDate = item.ImplementationDate,
+                    ImplementationTime = item.ImplementationTime,
+                    TotalPrice = item.TotalPrice,
+                    listOrderService = dtoListOrderService,
+                    
+                });
+            }
+            
+            return dtoList;
 
         }
 
@@ -206,12 +244,15 @@ namespace FurnitureCompany.ServiceImplement
         public CustomerUpdateUsernameAndPasswordDto CustomerUpdateUsernameAndPassword(int accountId, CustomerUpdateUsernameAndPasswordDto dto)
         {
             Account account = accountRepository.findAccountByAccountId(accountId);
-            if(account!=null)
-            account.Username = dto.Username;
-            account.Password = dto.Password;
-            account.UpdateAt = dto.UpdateAt;
-            accountRepository.customerUpdateUsernameAndPassword(account);
-            return dto;
+            bool isPasswordTrue = accountRepository.findPasswordIsTrueInAccount(accountId, dto.OldPassword);
+            if (isPasswordTrue)
+            {
+                account.Password = dto.NewPassword;
+                account.UpdateAt = dto.UpdateAt;
+                accountRepository.customerUpdateUsernameAndPassword(account);
+                return dto;
+            }        
+            return null;
         }
     }
 }

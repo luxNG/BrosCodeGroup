@@ -10,6 +10,9 @@ namespace FurnitureCompany.IService
         public UserTokenDto loginIntoServer(LoginDto loginDto);
         public Account userLogoutAccount(int accountId);
 
-        
+        //tạo mới 1 token với tham số đầu vào là refreshtoken
+       // public UserTokenDto RenewToken(RefreshTokenDto refreshTokenDto);
+
+
     }
 }

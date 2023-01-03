@@ -14,7 +14,7 @@ namespace FurnitureCompany.IService
         public List<CustomerServiceDetailCategoryDto> CustomerGetServiceAndCategoryInfor();
         public Task<Order> customerUpdateOrderByOrderIdAsync(int orderId, int customerId, CustomerUpdateOrderDto customerUpdateOrderDto);
 
-        public List<Order> customerGetAllOrderByCustomerId(int customerId);
+        public List<CustomerGetListOrderAndOrderServiceDto> customerGetAllOrderByCustomerId(int customerId);
 
         public CustomerCreateAccountDto customerCreateAccount(CustomerCreateAccountDto dto);
 

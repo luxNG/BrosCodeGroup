@@ -89,6 +89,19 @@ namespace FurnitureCompany.Controllers
             return Ok(account);
         }
 
-       
+
+      /*  [HttpPost]
+        [Route("renew-tokens")]
+        public IActionResult RenewTokens(RefreshTokenDto refreshToken)
+        {
+            var tokens = accountService.RenewToken(refreshToken);
+            if (tokens == null)
+            {
+                return ValidationProblem("Invalid Refresh Token");
+            }
+            return Ok(tokens);
+        }*/
+
+
     }
 }

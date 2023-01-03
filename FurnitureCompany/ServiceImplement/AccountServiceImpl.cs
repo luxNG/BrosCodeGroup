@@ -182,5 +182,33 @@ namespace FurnitureCompany.ServiceImplement
             Account account = accountRepository.logoutAccountByDeleteRefreshToken(accountId);
             return account;
         }
+
+       
+        //tạo mới 1 token với tham số đầu vào là refresh token
+        /*public UserTokenDto RenewToken(RefreshTokenDto refreshTokenDto)
+        {
+            var user_Refresh_Token = accountRepository.findRefreshTokenIsExist(refreshTokenDto);
+            //nếu mã trả về là null hay ko tìm thấy tức là người dùng phải đăng nhập lại
+            //vì mã refresh token này đã hết hạn
+            if (user_Refresh_Token == null)
+            {
+                return null;
+            }
+
+            Account user = accountRepository.findUserIdUsingRefreshTokenUserId(user_Refresh_Token);
+
+            //tạo mới 1 access token đồng thời tạo mới 1 refresh token
+            var newAccessJwtToken = CreateJwtToken(user);
+            var newRefreshToken = createRefreshToken();
+            user_Refresh_Token.RefreshToken1 = newRefreshToken;
+            user_Refresh_Token.ExperationDate = DateTime.Now.AddMonths(11);
+            refreshTokenRepository.updateNewRefreshTokenToDb(user_Refresh_Token);
+            return new TokenDto
+            {
+                AccessToken = newAccessJwtToken,
+                RefreshToken = newRefreshToken
+            };
+
+        }*/
     }
 }
