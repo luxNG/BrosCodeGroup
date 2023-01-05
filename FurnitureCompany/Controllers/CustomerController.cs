@@ -318,5 +318,29 @@ namespace FurnitureCompany.Controllers
                 return BadRequest("Đã có lỗi xảy ra khi cập nhật thông tin, vui lòng thử lại. ");
             }
         }
+
+        [HttpDelete]
+        [Route("deleteServiceInOrder/{orderId}/orderServiceId/{orderServiceId}")]
+        public IActionResult customerDeleteServiceInOrder(int orderId, int orderServiceId)
+        {
+            try
+            {
+                bool isDeletedSuccess = customerService.deleteOrderService(orderId, orderServiceId);
+                if (isDeletedSuccess)
+                {
+                    return Ok("Đã xóa dịch vụ thành công. ");
+                }
+                else
+                {
+                    return BadRequest("Đã xảy ra lỗi khi xóa dịch vụ, vui lòng thử lại. ");
+                }
+                
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã xảy ra lỗi khi cập nhật đơn hàng, vui lòng thử lại. ");
+            }
+        }
     }
 }

@@ -13,13 +13,10 @@ namespace FurnitureCompany.IService
         public Task< Order> customerCreateOrderUsingCustomerIdTest(int id, CustomerCreateOrderTestDto customerCreateOrderTestDto);
         public List<CustomerServiceDetailCategoryDto> CustomerGetServiceAndCategoryInfor();
         public Task<Order> customerUpdateOrderByOrderIdAsync(int orderId, int customerId, CustomerUpdateOrderDto customerUpdateOrderDto);
-
         public List<CustomerGetListOrderAndOrderServiceDto> customerGetAllOrderByCustomerId(int customerId);
-
         public CustomerCreateAccountDto customerCreateAccount(CustomerCreateAccountDto dto);
-
         public CustomerUpdateUsernameAndPasswordDto CustomerUpdateUsernameAndPassword(int accountId, CustomerUpdateUsernameAndPasswordDto dto);
-
+        public bool deleteOrderService(int orderId, int orderServiceId);
 
     }
 }

@@ -9,5 +9,7 @@ namespace FurnitureCompany.IRepository
         public OrderService FindOrderServiceByOrderServiceId(int orderServiceId);
         public Task<OrderService> EmployeeFindOrderServiceByOrderId(int orderId, int serviceId);
 
+        public bool customerDeleteOrderService(int orderId,int orderServiceId);
+
     }
 }

@@ -149,7 +149,8 @@ namespace FurnitureCompany.ServiceImplement
 
                 if (orderServiceFind != null)
                 {
-                    orderServiceFind.Quantity += itemDto.Quantity;
+                    // orderServiceFind.Quantity += itemDto.Quantity;
+                    orderServiceFind.Quantity = itemDto.Quantity;
                     orderServiceRepository.updateOrderService(orderServiceFind);
 
                 }
@@ -172,40 +173,32 @@ namespace FurnitureCompany.ServiceImplement
         {
             List<Order> list = orderRepository.customerGetListOrderAndOrderServiceByCustomerId(customerId);
             List<CustomerGetListOrderAndOrderServiceDto> dtoList = new List<CustomerGetListOrderAndOrderServiceDto>();
-            List<CustomerGetListOrderServiceDto> dtoListOrderService = new List<CustomerGetListOrderServiceDto>();
-           
+            
             foreach (var item in list)
             {
-                foreach (var itemDto in item.OrderServices)
+                foreach (var itemMap in item.OrderServices)
                 {
-                    dtoListOrderService.Add(new CustomerGetListOrderServiceDto()
+                    dtoList.Add(new CustomerGetListOrderAndOrderServiceDto()
                     {
-                        OrderServiceId = itemDto.OrderServiceId,
-                        Quantity = itemDto.Quantity,
-                        ServiceId = itemDto.Service.ServiceId,
-                        ServiceName = itemDto.Service.ServiceName,
-                        Price=itemDto.Service.Price
+                        OrderId = item.OrderId,
+                        WorkingStatusId = item.WorkingStatusId,
+                        CustomerId = item.CustomerId,
+                        Address = item.Address,
+                        CreateAt = item.CreateAt,
+                        UpdateAt = item.UpdateAt,
+                        Description = item.Description,
+                        ImplementationDate = item.ImplementationDate,
+                        ImplementationTime = item.ImplementationTime,
+                        TotalPrice = item.TotalPrice,
+                        OrderServiceId = itemMap.OrderServiceId,
+                        ServiceId = itemMap.Service.ServiceId,
+                        ServiceName = itemMap.Service.ServiceName,
+                        Quantity = itemMap.Quantity,
+                        Price = itemMap.Service.Price
+
                     });
                 }
-            }
-
-            foreach (var item in list)
-            {
-                dtoList.Add(new CustomerGetListOrderAndOrderServiceDto()
-                {
-                    OrderId = item.OrderId,
-                    WorkingStatusId = item.WorkingStatusId,
-                    CustomerId = item.CustomerId,
-                    Address = item.Address,
-                    CreateAt = item.CreateAt,
-                    UpdateAt = item.UpdateAt,
-                    Description = item.Description,
-                    ImplementationDate = item.ImplementationDate,
-                    ImplementationTime = item.ImplementationTime,
-                    TotalPrice = item.TotalPrice,
-                    listOrderService = dtoListOrderService,
-                    
-                });
+                
             }
             
             return dtoList;
@@ -253,6 +246,12 @@ namespace FurnitureCompany.ServiceImplement
                 return dto;
             }        
             return null;
+        }
+
+        public bool deleteOrderService(int orderId, int orderServiceId)
+        {
+            bool isDeletedSuccess =  orderServiceRepository.customerDeleteOrderService(orderId, orderServiceId);
+            return isDeletedSuccess;
         }
     }
 }

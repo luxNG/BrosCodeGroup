@@ -12,8 +12,10 @@
         public DateTime CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
         public string? Description { get; set; }
-
-        public List<CustomerGetListOrderServiceDto> listOrderService { get; set; }
-        //public List<CustomerGetListServiceDto> listServiceDto { get; set; }
+        public int OrderServiceId { get; set; }
+        public int? Quantity { get; set; }
+        public int ServiceId { get; set; }
+        public string ServiceName { get; set; } = null!;
+        public string? Price { get; set; }
     }
 }

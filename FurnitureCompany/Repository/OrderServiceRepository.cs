@@ -36,5 +36,21 @@ namespace FurnitureCompany.Repository
             furnitureCompanyContext.OrderServices.Update(orderService);
             furnitureCompanyContext.SaveChanges();
         }
+
+        public bool customerDeleteOrderService(int orderId, int orderServiceId)
+        {
+            OrderService orderService = furnitureCompanyContext.OrderServices.FirstOrDefault(x => x.OrderId == orderId && x.OrderServiceId == orderServiceId); 
+            if(orderService != null)
+            {
+                furnitureCompanyContext.OrderServices.Remove(orderService);
+                furnitureCompanyContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
     }
 }
