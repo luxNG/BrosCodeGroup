@@ -2,6 +2,7 @@
 using FurnitureCompany.IRepository;
 using FurnitureCompany.IService;
 using FurnitureCompany.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,6 +11,7 @@ namespace FurnitureCompany.Controllers
 {
     [Route("api/manager")]
     [ApiController]
+    [Authorize(Roles = "manager")]
     public class ManagerController : ControllerBase
     {
         private IManagerRepository iManagerRepository;
@@ -18,7 +20,10 @@ namespace FurnitureCompany.Controllers
         private IManagerService managerService;
         private IWorkingStatusService workingStatusService;
         private IFurnitureServiceService furnitureServiceService;
-        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService, IAccountService accountService, IWorkingStatusService workingStatusService, IFurnitureServiceService furnitureServiceService)
+        private ICustomerService customerService;
+        private IEmployeeDayOffRepository employeeDayOffRepository;
+        private IEmployeeDayOffService employeeDayOffService;
+        public ManagerController(IManagerRepository iManagerRepository, ICategoryRepository iCategoryRepository, IManagerService managerService, IAccountService accountService, IWorkingStatusService workingStatusService, IFurnitureServiceService furnitureServiceService, ICustomerService customerService, IEmployeeDayOffService employeeDayOffService)
         {
 
             this.iManagerRepository = iManagerRepository;
@@ -27,6 +32,8 @@ namespace FurnitureCompany.Controllers
             this.accountService = accountService;
             this.workingStatusService = workingStatusService;
             this.furnitureServiceService = furnitureServiceService;
+            this.customerService = customerService;
+            this.employeeDayOffService = employeeDayOffService;
         }
 
         // GET: api/<ManagerController>
@@ -217,21 +224,68 @@ namespace FurnitureCompany.Controllers
                 return BadRequest("Đã có lỗi xãy ra khi lấy thông tin, vui lòng thử lại. ");
             }
         }
-       /* [HttpGet]
-        [Route("getAllAccountEmployee")]
-        public IActionResult managerGetAllAccountInformationOfEmployee()
+        [HttpGet]
+        [Route("getInforDetailByAccountId/id")]
+        public IActionResult managerGetInforDetail(int id)
         {
             try
             {
-                List<Account> list = accountService.managerGetAllAccountInformationOfEmployee();
-                return Ok(list);
+                Manager manager = managerService.getInforDetailByAccountId(id);
+                return Ok(manager);
             }
             catch (Exception)
             {
 
-                return BadRequest("Can not get all account information of employee, try again. ");
+                return BadRequest("Đã xảy ra lỗi, vui lòng thử lại. ");
             }
         }
-*/
+
+        [HttpGet]
+        [Route("getAllCustomer")]
+        public IActionResult managerGetAllCustomerInfomation()
+        {
+            try
+            {
+                List<Customer> listCustomer = customerService.getAllCustomer();
+                return Ok(listCustomer);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Can not get list customer information, try again");
+            }
+        }
+
+        [HttpGet]
+        [Route("getEmployeeDayOff")]
+        public IActionResult managerGetEmployeeDayOff()
+        {
+            try
+            {
+                List<ManagerGetEmployeeDayOffDto> list = employeeDayOffService.managerGetListEmployeeDayOff();
+                return Ok(list);                
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã xảy ra lỗi khi truy cập, vui lòng thử lại. ");
+            }
+        }
+        /* [HttpGet]
+         [Route("getAllAccountEmployee")]
+         public IActionResult managerGetAllAccountInformationOfEmployee()
+         {
+             try
+             {
+                 List<Account> list = accountService.managerGetAllAccountInformationOfEmployee();
+                 return Ok(list);
+             }
+             catch (Exception)
+             {
+
+                 return BadRequest("Can not get all account information of employee, try again. ");
+             }
+         }
+ */
     }
 }

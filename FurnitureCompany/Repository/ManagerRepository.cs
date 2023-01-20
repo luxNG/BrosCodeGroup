@@ -56,5 +56,11 @@ namespace FurnitureCompany.Repository
             Order order = furnitureCompanyContext.Orders.Where(x => x.OrderId == orderId).Include(x=>x.WorkingStatus).Include(x => x.Assigns).ThenInclude(x=>x.Employee).Include(x => x.Customer).Include(x=>x.OrderImages).Include(x=>x.OrderServices).ThenInclude(x=>x.Service).ThenInclude(x=>x.Category).FirstOrDefault();
             return order;
         }
+
+        public Manager getInforDetailByAccountId(int accountId)
+        {
+            Manager manager = furnitureCompanyContext.Managers.Where(x => x.AccountId == accountId).Include(x=>x.Account).FirstOrDefault();
+            return manager;
+        }
     }
 }

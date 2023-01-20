@@ -34,7 +34,7 @@ namespace FurnitureCompany.Repository
 
         public List<EmployeeDayOff> getAllEmployeeDayOff()
         {
-            List<EmployeeDayOff> listEmployeeDayOff = furnitureCompanyContext.EmployeeDayOffs.ToList();
+            List<EmployeeDayOff> listEmployeeDayOff = furnitureCompanyContext.EmployeeDayOffs.Include(x => x.Employee).ToList();
             return listEmployeeDayOff;
         }
 

@@ -12,7 +12,7 @@ namespace FurnitureCompany.IRepository
         public Order managerGetOrderByOrderId(int orderId);
         public Order managerGetOrderDetailByOrderId(int orderId);
 
-
+        public Manager getInforDetailByAccountId(int accountId);
 
     }
 }

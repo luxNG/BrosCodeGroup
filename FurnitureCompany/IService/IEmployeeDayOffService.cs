@@ -9,5 +9,7 @@ namespace FurnitureCompany.IService
         public EmployeeDayOff employeeUpdateDayOffDayOffId(int dayOffId, EmployeeUpdateDayOffDto dto);
         public EmployeeDayOff employeeCreateAbsentForm(EmployeeDayOffDto employeeDayOffDto);
         public EmployeeDayOff cancelAbsentFormByFormId(int employeeDayOffId);
+
+        public List<ManagerGetEmployeeDayOffDto> managerGetListEmployeeDayOff();
     }
 }

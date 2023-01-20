@@ -50,5 +50,27 @@ namespace FurnitureCompany.ServiceImplement
             List<EmployeeDayOff> list = employeeDayOffRepository.getAllDayOffByEmployeeId(employeeId);
             return list;
         }
+
+        public List<ManagerGetEmployeeDayOffDto> managerGetListEmployeeDayOff()
+        {
+            List<EmployeeDayOff> listEmployeeDayOff = employeeDayOffRepository.getAllEmployeeDayOff();
+            List<ManagerGetEmployeeDayOffDto> dto = new List<ManagerGetEmployeeDayOffDto>();
+            foreach (var item in listEmployeeDayOff)
+            {
+                dto.Add(new ManagerGetEmployeeDayOffDto()
+                {
+                    Id = item.Id,
+                    EmployeeId = item.EmployeeId,
+                    EmployeeName = item.Employee.EmployeeName,
+                    EmployeePhoneNumber = item.Employee.EmployeePhoneNumber,
+                    Email = item.Employee.Email,
+                    DayOff = item.DayOff,
+                    Reason = item.Reason,
+                    Status = item.Status
+                });
+            }
+
+            return dto;
+        }
     }
 }

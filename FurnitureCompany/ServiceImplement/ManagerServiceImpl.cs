@@ -165,5 +165,11 @@ namespace FurnitureCompany.ServiceImplement
             }
             return dto;
         }
+
+        public Manager getInforDetailByAccountId(int accountId)
+        {
+            Manager manager = managerRepository.getInforDetailByAccountId(accountId);
+            return manager;
+        }
     }
 }

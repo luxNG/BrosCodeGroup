@@ -17,7 +17,7 @@ namespace FurnitureCompany.IService
         public Order updateOrderWorkingStatusByOrderId(int orderId, int orderWorkingStatusId);
         public List<Customer> managerGetCustomerOrderInforByCustomerPhoneNumber(string phoneNumber);
         public List<ManagerGetAllEmployeeInforDto> managerGetAllEmployeeInfor();
-
+        public Manager getInforDetailByAccountId(int accountId);
 
     }
 }
