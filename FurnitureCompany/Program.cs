@@ -49,7 +49,18 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 //add CORS
+//c1
 builder.Services.AddCors();
+//c2
+/*builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000/");
+        });
+});*/
+
 
 builder.Services.AddDbContext<FurnitureCompanyContext>(options =>
 {
@@ -127,7 +138,9 @@ if (app.Environment.IsDevelopment()||app.Environment.IsProduction())
 }*/
 
 //ADD CORS
-app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+//AllowAnyOrigin().
+//c2 
+app.UseCors(c => c.SetIsOriginAllowed(isOriginAllowed => true).AllowCredentials().AllowAnyHeader().AllowAnyMethod());
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
