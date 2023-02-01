@@ -10,6 +10,8 @@
         public string? CategoryName { get; set; }
         public int? Quantity { get; set; }
         public string? EstimateTimeFinish { get; set; }
+        public DateTime? ImplementationDate { get; set; }
+        public string? ImplementationTime { get; set; }
 
 
     }

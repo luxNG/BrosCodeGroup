@@ -38,8 +38,15 @@ namespace FurnitureCompany.ServiceImplement
             {
                 listServiceDtoMap.Add(new OrderServiceDto
                 {
+                    OrderId = item.Order.OrderId,
+                    OrderServiceId = item.OrderServiceId,
+                    ServiceId = item.Service.ServiceId,
                     ServiceName = item.Service.ServiceName,
-                    Price = item.Service.Price
+                    Price = item.Service.Price,
+                    Quantity = item.Quantity,
+                    CategoryName= item.Service.Category.CategoryName
+                    
+                    
                 });
             }
 

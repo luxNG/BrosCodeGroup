@@ -73,7 +73,10 @@ namespace FurnitureCompany.ServiceImplement
                     Price = item.Service.Price,
                     EstimateTimeFinish = item.EstimateTimeFinish,
                     CategoryName = item.Service.Category.CategoryName,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    ImplementationDate = item.Order.ImplementationDate,
+                    ImplementationTime = item.Order.ImplementationTime,
+
                 }) ;
             }
             EmployeeGetOrderDetailDto order = new EmployeeGetOrderDetailDto()
@@ -107,6 +110,8 @@ namespace FurnitureCompany.ServiceImplement
                     StatusName = assignItem.Order.WorkingStatus.StatusName,
                     CustomerPhone = assignItem.Order.Customer.CustomerPhone,
                     WorkingStatusId = assignItem.Order.WorkingStatusId,
+                    ImplementationDate = assignItem.Order.ImplementationDate,
+                    ImplementationTime = assignItem.Order.ImplementationTime
                     
                 });
             }

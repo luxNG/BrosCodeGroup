@@ -14,9 +14,10 @@ namespace FurnitureCompany.DTO
         public string? CustomerPhone { get; set; }
         public string? CustomerName { get; set; }
         public string? ServiceName { get; set; }
-        public string? Price { get; set; } 
+        public string? Price { get; set; }
+        public DateTime? ImplementationDate { get; set; }
+        public string? ImplementationTime { get; set; }
 
-        
 
     }
 }

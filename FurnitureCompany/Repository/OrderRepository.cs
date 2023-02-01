@@ -70,7 +70,7 @@ namespace FurnitureCompany.Repository
 
         public Order customerGetOrderDetailInformationByOrderId(int orderId)
         {
-            Order order = furnitureCompanyContext.Orders.Include(x => x.OrderServices).ThenInclude(x=>x.Service).Include(x=>x.Assigns).ThenInclude(x=>x.Employee).Include(x=>x.WorkingStatus).Where(x => x.OrderId == orderId).FirstOrDefault();
+            Order order = furnitureCompanyContext.Orders.Include(x => x.OrderServices).ThenInclude(x=>x.Service).ThenInclude(x => x.Category).Include(x=>x.Assigns).ThenInclude(x=>x.Employee).Include(x=>x.WorkingStatus).Where(x => x.OrderId == orderId).FirstOrDefault();
             return order;
         }
 
