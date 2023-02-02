@@ -9,7 +9,7 @@
         public string EmployeePhoneNumber { get; set; } = null!;
         public string? Reason { get; set; }
         public DateTime DayOff { get; set; }
-        public bool? Status { get; set; }
+        public int? Status { get; set; }
 
     }
 }

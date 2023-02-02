@@ -271,6 +271,22 @@ namespace FurnitureCompany.Controllers
                 return BadRequest("Đã xảy ra lỗi khi truy cập, vui lòng thử lại. ");
             }
         }
+
+        [HttpPut]
+        [Route("updateEmployeeDayOffStatus/employeeDayOffId/{id}")]
+        public IActionResult managerUpdateEmployeeDayOffStatus(int id, ManagerUpdateEmployeeDayOffStatusDto dto)
+        {
+            try
+            {
+                EmployeeDayOff employeeDayOff = employeeDayOffService.managerUpdateEmployeeDayOffStatus(id, dto);
+                return Ok(employeeDayOff);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã xảy ra lỗi khi cập nhật thông tin, vui lòng thử lại. ");
+            }
+        }
         /* [HttpGet]
          [Route("getAllAccountEmployee")]
          public IActionResult managerGetAllAccountInformationOfEmployee()

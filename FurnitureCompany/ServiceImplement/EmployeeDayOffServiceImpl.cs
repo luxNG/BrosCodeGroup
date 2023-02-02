@@ -16,7 +16,7 @@ namespace FurnitureCompany.ServiceImplement
         public EmployeeDayOff cancelAbsentFormByFormId(int employeeDayOffId)
         {
             EmployeeDayOff employeeDayOff = employeeDayOffRepository.getDayOffByDayOffId(employeeDayOffId);
-            employeeDayOff.Status = false;
+            employeeDayOff.Status = 2;
             employeeDayOffRepository.updateDayOffByEmployee(employeeDayOff);
             return employeeDayOff;
         }
@@ -71,6 +71,15 @@ namespace FurnitureCompany.ServiceImplement
             }
 
             return dto;
+        }
+
+        public EmployeeDayOff managerUpdateEmployeeDayOffStatus(int employeeDayOffId, ManagerUpdateEmployeeDayOffStatusDto dto)
+        {
+            EmployeeDayOff employeeDayOff = employeeDayOffRepository.getDayOffByDayOffId(employeeDayOffId);
+            employeeDayOff.Status = dto.Status;
+            // lưu ý function này
+            employeeDayOffRepository.updateDayOffByEmployee(employeeDayOff);
+            return employeeDayOff;
         }
     }
 }

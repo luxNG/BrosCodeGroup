@@ -186,7 +186,9 @@ namespace FurnitureCompany.ServiceImplement
                     StatusName = item.Order.WorkingStatus.StatusName,
                     CustomerPhone = item.Order.Customer.CustomerPhone,
                     WorkingStatusId = item.Order.WorkingStatusId,
-                    TotalPrice=item.Order.TotalPrice
+                    TotalPrice = item.Order.TotalPrice,
+                    ImplementationDate = item.Order.ImplementationDate,
+                    ImplementationTime = item.Order.ImplementationTime
                 });
             }
             return dto;

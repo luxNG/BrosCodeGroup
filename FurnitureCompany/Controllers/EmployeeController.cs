@@ -17,12 +17,14 @@ namespace FurnitureCompany.Controllers
         private IEmployeeRepository iEmployeeRepository;
         private IEmployeeService iEmployeeService;
         private IEmployeeDayOffService employeeDayOffService;
+        private ICustomerService customerService;
        
-        public EmployeeController(IEmployeeRepository iEmployeeRepository, IEmployeeService iEmployeeService, IEmployeeDayOffService employeeDayOffService)
+        public EmployeeController(IEmployeeRepository iEmployeeRepository, IEmployeeService iEmployeeService, IEmployeeDayOffService employeeDayOffService, ICustomerService customerService)
         {
             this.iEmployeeRepository = iEmployeeRepository;
             this.iEmployeeService = iEmployeeService;
             this.employeeDayOffService = employeeDayOffService;
+            this.customerService = customerService;
         }
 
         // Lấy danh sách tất cả employee có trong database thực hiện bởi manager
@@ -241,6 +243,31 @@ namespace FurnitureCompany.Controllers
             catch (Exception)
             {
                 return BadRequest("Đã có lỗi xảy ra khi hủy đơn, vui lòng thử lại. ");
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("deleteServiceInOrder/{orderId}/orderServiceId/{orderServiceId}")]
+        public IActionResult customerDeleteServiceInOrder(int orderId, int orderServiceId)
+        {
+            try
+            {
+                bool isDeletedSuccess = customerService.deleteOrderService(orderId, orderServiceId);
+                if (isDeletedSuccess)
+                {
+                    return Ok("Đã xóa dịch vụ thành công. ");
+                }
+                else
+                {
+                    return BadRequest("Đã xảy ra lỗi khi xóa dịch vụ, vui lòng thử lại. ");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Đã xảy ra lỗi khi cập nhật đơn hàng, vui lòng thử lại. ");
             }
         }
 
